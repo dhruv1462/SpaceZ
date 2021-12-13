@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MissionControlSystem" Height="450" Width="800">
     <Grid>
-        <Button x:Name="addSpaceCraftBtn" Content="ADD SPACECRAFT&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top" Width="500" Click="addSpaceCraftBtn_Click" Height="63"  FontSize="18" FontWeight="Bold"/>
+        <Label FontSize="16" FontWeight="Bold" Content="Add New Spacecraft" HorizontalAlignment="Left" Margin="74,42,0,0" VerticalAlignment="Top" Width="188"/>
+        <StackPanel HorizontalAlignment="Left" Height="40" Margin="-3,90,0,0" VerticalAlignment="Top" Width="328">
+            <Button Content="ADD SPACECRAFT"  Click="addSpaceCraftBtn_Click" Height="34" FontWeight="Bold" Margin="27,0,29,0"/>
+        </StackPanel>
+        <Label FontSize="16" FontWeight="Bold" Content="Launch Spacecraft" HorizontalAlignment="Left" Margin="74,0,0,0" VerticalAlignment="Center" Width="188"/>
+        <StackPanel HorizontalAlignment="Left" Height="138" Margin="11,238,0,0" VerticalAlignment="Top" Width="314">
+            <Label  FontWeight="Bold" Content="Select Spacecraft" />
+            <ComboBox x:Name="launchSpacecraftCombo" Margin="28,0,27,0" Height="33" FontWeight="Bold" SelectionChanged="comboNewSpacecrafts_SelectionChanged"/>
+            <Label  FontWeight="Bold" Content="Launch" />
+            <Button  FontWeight="Bold" x:Name="btnLaunchSpacecraft" IsEnabled="True" Content="Launch Spacecraft" Height="34" Margin="27,0,29,0" Click="btnLaunchSpacecraft_Click"  />
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,14 +23,54 @@ namespace DSN
         public MissionControlSystem()
         {
             InitializeComponent();
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataReader reader;
+            string selectQuery = "Select spacecraftName from spacecraftinfo where launchStatus = 'inactive'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                launchSpacecraftCombo.Items.Add(reader.GetValue(0));
+            }
+            cnn.Close();
         }
 
 
         private void addSpaceCraftBtn_Click(object sender, RoutedEventArgs e)
         {
-            var communicationSystem = new CommunicationSystem(); //create your new form.
-            communicationSystem.Show(); //show the new form.
+            var addSpacecraft = new AddSpacecraft();
+            addSpacecraft.Show(); 
             this.Close();
+        }
+
+        private void btnLaunchSpacecraft_Click(object sender, RoutedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            string updateQuery = "Update spacecraftinfo set launchStatus = 'active' where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
+            cmd = new SqlCommand(updateQuery, cnn);
+            adapter.UpdateCommand = cmd;
+            adapter.UpdateCommand.ExecuteNonQuery();
+            cmd.Dispose();
+            cnn.Close();
+            var missionControlSystem = new MissionControlSystem();
+            missionControlSystem.Show();
+            this.Close();
+        }
+
+        private void comboNewSpacecrafts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

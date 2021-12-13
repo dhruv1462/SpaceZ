@@ -17,3 +17,6 @@ C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.GenerateResou
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.CoreCompileInputs.cache
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.exe
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.AssemblyReference.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\AddSpacecraft.g.cs
+C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\AddSpacecraft.baml

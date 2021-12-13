@@ -5,7 +5,22 @@
       "ProjectGuid": "1998e082-da25-4838-9d12-29c73c98e1ad",
       "DisplayName": "SpaceZ",
       "ColorIndex": 0
+    },
+    "024180f2-2731-42bd-b326-433ff2fa3426": {
+      "ProjectGuid": "024180f2-2731-42bd-b326-433ff2fa3426",
+      "DisplayName": "DNS",
+      "ColorIndex": 1
+    },
+    "483ef656-9e0e-4840-9aaa-b3776f66e376": {
+      "ProjectGuid": "483ef656-9e0e-4840-9aaa-b3776f66e376",
+      "DisplayName": "DSN",
+      "ColorIndex": 2
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 3
 }
