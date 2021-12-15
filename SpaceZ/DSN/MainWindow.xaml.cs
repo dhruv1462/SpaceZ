@@ -27,15 +27,15 @@ namespace DSN
 
         private void communicationSystemBtn_Click(object sender, RoutedEventArgs e)
         {
-            var communicationSystem = new CommunicationSystem(); //create your new form.
-            communicationSystem.Show(); //show the new form.
+            var communicationSystem = new CommunicationSystem();
+            communicationSystem.Show(); 
             this.Close();
         }
 
         private void missionControlSystemBtn_Click(object sender, RoutedEventArgs e)
         {
-            var missionControlSystem = new MissionControlSystem(); //create your new form.
-            missionControlSystem.Show(); //show the new form.
+            var missionControlSystem = new MissionControlSystem(); 
+            missionControlSystem.Show(); 
             this.Close();
         }
     }

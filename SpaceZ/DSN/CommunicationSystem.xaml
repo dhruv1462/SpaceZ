@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="CommunicationSystem" Height="450" Width="800">
     <Grid>
-        
+        <Button  FontWeight="Bold" x:Name="btnBack" Content="Back" HorizontalAlignment="Right" Margin="12,9,0,0" VerticalAlignment="Bottom" Width="75" Click="btnBack_Click"/>
+        <Label FontSize="16" FontWeight="Bold" Content="List of spacecarft" HorizontalAlignment="Left" Margin="563,29,0,0" VerticalAlignment="Top" Width="140" RenderTransformOrigin="0.912,0.488"/>
+        <StackPanel HorizontalAlignment="Left" Height="86" Margin="476,65,0,0" VerticalAlignment="Top" Width="314">
+            <ComboBox x:Name="allSpacecraftCombo" Margin="28,0,27,0" Height="33" FontWeight="Bold" SelectionChanged="allSpacecraftCombo_SelectionChanged"/>
+            <Label  FontWeight="Bold"/>
+            <Button  FontWeight="Bold" x:Name="btnShowSpacecraft" IsEnabled="True" Content="Show info of Spacecraft" Height="34" Margin="27,0,29,0" Click="btnShowSpacecraft_Click"/>
+        </StackPanel>
+        <TextBox FontWeight="Bold" x:Name="txtSpacecraftData" HorizontalAlignment="Left" Height="182" Margin="507,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" TextChanged="txtSpacecraftData_TextChanged"/>
+
     </Grid>
 </Window>

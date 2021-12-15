@@ -63,10 +63,10 @@ namespace DSN
                 string spacecraftName = spacecraftNameTxt.Text;
                 string orbitRadius = orbitRadiusTxt.Text;
                 string payloadName = payloadNameTxt.Text;
-                string playloadType = payloadCombo.SelectedItem.ToString();
+                string payloadType = payloadCombo.SelectedItem.ToString();
                 string launchStatus = "inactive";
                 cnn.Open();
-                string insertQuery = "Insert Into spacecraftinfo (spacecraftName, orbitRadius, payloadName, playloadType, launchStatus) values('" + spacecraftName+"','"+orbitRadius + "','" +payloadName + "','" +playloadType+"', '"+ launchStatus +"')";
+                string insertQuery = "Insert Into spacecraftinfo (spacecraftName, orbitRadius, payloadName, payloadType, launchStatus) values('" + spacecraftName+"','"+orbitRadius + "','" +payloadName + "','" +payloadType+"', '"+ launchStatus +"')";
                 cmd = new SqlCommand(insertQuery, cnn);
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.InsertCommand = cmd;

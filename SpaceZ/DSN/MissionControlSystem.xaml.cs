@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,10 +73,33 @@ namespace DSN
             adapter.UpdateCommand = cmd;
             adapter.UpdateCommand.ExecuteNonQuery();
             cmd.Dispose();
-            cnn.Close();
+            adapter.Dispose();
             var missionControlSystem = new MissionControlSystem();
             missionControlSystem.Show();
             this.Close();
+            Process p = new Process();
+            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
+            p.Start();
+            SqlDataReader reader;
+            double orbitRadius = 0;
+            string selectQuery = "select orbitRadius from spacecraftinfo where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                orbitRadius = reader.GetDouble(0);
+            }
+            double timeToOrbit = (double)orbitRadius / 3600 + 10;
+            reader.Close();
+            cmd.Dispose();
+            double timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            timestamp = timestamp + orbitRadius;
+            string insertQuery = "Insert Into timeToOrbit (spacecraftName, timespan) values('" + launchSpacecraftCombo.SelectedItem.ToString() + "','" + timestamp + "')";
+            cmd = new SqlCommand(insertQuery, cnn);
+            adapter = new SqlDataAdapter();
+            adapter.InsertCommand = cmd;
+            adapter.InsertCommand.ExecuteNonQuery();
+            cnn.Close();
         }
 
         private void comboNewSpacecrafts_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -94,12 +118,13 @@ namespace DSN
             cnn.Open();
             SqlCommand cmd;
             SqlDataReader reader;
-            string selectQuery = "Select spacecraftName, launchStatus from spacecraftinfo Where spacecraftName = '" + spacecraftName + "'";
+            string selectQuery = "Select * from spacecraftinfo Where spacecraftName = '" + spacecraftName + "'";
             cmd = new SqlCommand(selectQuery, cnn);
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                MessageBox.Show(reader.GetString(1), reader.GetString(0));
+                string information = "\nSpacecraft Name: " + reader.GetString(0) + "\nOrbit Radius: " + reader.GetDouble(1) + "\nPayload Name: " + reader.GetString(2) + "\nPayload Type: " + reader.GetString(3) + "\nLaunch Status: " + reader.GetString(4);
+                MessageBox.Show(information, reader.GetString(0));
             }
         }
 
