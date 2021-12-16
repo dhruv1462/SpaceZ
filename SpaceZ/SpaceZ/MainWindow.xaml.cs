@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SpaceZ
 {
@@ -21,6 +22,9 @@ namespace SpaceZ
     /// </summary>
     public partial class MainWindow : Window
     {
+        private double counter = 0;
+        private DispatcherTimer timer = new DispatcherTimer();
+        private string orbitRadius = "";
         public MainWindow()
         {
             InitializeComponent();
@@ -41,8 +45,8 @@ namespace SpaceZ
 
             reader.Close();
             cnn.Close();
+            payloadLaunchBtn.IsEnabled = false;
         }
-
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -63,21 +67,101 @@ namespace SpaceZ
             cnn.Open();
             SqlCommand cmd;
             SqlDataReader reader;
-            string selectQuery = "Select timeToOrbit from timeToOrbit";
+            string selectQuery = "Select timespan from timeToOrbit Where spaceCraftName = '" + comboBoxSpacecrafts.SelectedItem.ToString() + "'";
             cmd = new SqlCommand(selectQuery, cnn);
             double timeStamp = 0;
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-               timeStamp = reader.GetDouble(0);
+                timeStamp = reader.GetDouble(0);
             }
             double currenttimestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            double counter = timeStamp - currenttimestamp; 
+            counter = (timeStamp - currenttimestamp);
             reader.Close();
+            cmd.Dispose();
+
+            string spacecraftName = comboBoxSpacecrafts.SelectedItem.ToString();
+            cnn.Open();
+            string getOrbitRadius = "Select orbitRadius from spacecraftinfo where spacecraftName = '" + spacecraftName + "'";
+            cmd = new SqlCommand(getOrbitRadius, cnn);
+            reader = cmd.ExecuteReader();
+            string payLoadName = "";
+            while (reader.Read())
+            {
+                orbitRadius = reader.GetString(0);
+            }
+            reader.Close();
+            cmd.Dispose();
+
             cnn.Close();
+
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+
         }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+        public void timerTick(object sender, EventArgs e)
+        {
+            counter--;
+            if(counter <= 0)
+            {
+                SqlConnection cnn;
+                string connetionString;
+                connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                cnn = new SqlConnection(connetionString);
+                SqlCommand cmd;
+                SqlDataReader reader;
+                string spacecraftName = comboBoxSpacecrafts.SelectedItem.ToString();
+                string payloadStatus = "NotDeployed";
+                cnn.Open();
+                string getPayloadName = "Select payloadName from spacecraftinfo where spacecraftName = '" + spacecraftName + "'";
+                cmd = new SqlCommand(getPayloadName, cnn);
+                reader = cmd.ExecuteReader();
+                string payLoadName = "";
+                while (reader.Read())
+                {
+                    payLoadName = reader.GetString(0);
+                }
+                reader.Close();
+                cmd.Dispose();
+
+                string getVehicleNameAlreadyInOrbit = "Select payloadName from vehicleInOrbit";
+                cmd = new SqlCommand(getPayloadName, cnn);
+                reader = cmd.ExecuteReader();
+                string vehicleNameAlreadyInOrbit = "";
+                while (reader.Read())
+                {
+                    vehicleNameAlreadyInOrbit = reader.GetString(0);
+                }
+                reader.Close();
+                cmd.Dispose();
+                if (vehicleNameAlreadyInOrbit != payLoadName)
+                {
+                    string insertQuery = "Insert Into vehicleInOrbit (spacecraftName, payloadName, payLoadStatus) values('" + spacecraftName + "','" + payLoadName + "','" + payloadStatus + "')";
+                    cmd = new SqlCommand(insertQuery, cnn);
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.InsertCommand = cmd;
+                    adapter.InsertCommand.ExecuteNonQuery();
+                    cnn.Close();
+
+                }
+                payloadLaunchBtn.IsEnabled = true;
+                textTelemetry.Text = "[ORBIT REACHED FOR : " + spacecraftName + "]";
+                timer.Stop();
+            }
+            else
+            {
+                Random rand = new Random();
+                double altitude = 0;
+                double longitude = rand.NextDouble() * Math.PI * 2;
+                double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
+                double temperature = rand.Next();
+                textTelemetry.Text = "{\n altitude : "+altitude+ "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + counter + "\n}";
+
+            }
+        }
+        private void payloadLaunchBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }

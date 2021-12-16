@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace DSN
 {
@@ -93,7 +94,7 @@ namespace DSN
             reader.Close();
             cmd.Dispose();
             double timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            timestamp = timestamp + orbitRadius;
+            timestamp = timestamp + timeToOrbit;
             string insertQuery = "Insert Into timeToOrbit (spacecraftName, timespan) values('" + launchSpacecraftCombo.SelectedItem.ToString() + "','" + timestamp + "')";
             cmd = new SqlCommand(insertQuery, cnn);
             adapter = new SqlDataAdapter();
