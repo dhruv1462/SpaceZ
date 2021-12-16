@@ -24,7 +24,7 @@ namespace SpaceZ
     {
         private double counter = 0;
         private DispatcherTimer timer = new DispatcherTimer();
-        private string orbitRadius = "";
+        private double orbitRadius = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -81,14 +81,13 @@ namespace SpaceZ
             cmd.Dispose();
 
             string spacecraftName = comboBoxSpacecrafts.SelectedItem.ToString();
-            cnn.Open();
             string getOrbitRadius = "Select orbitRadius from spacecraftinfo where spacecraftName = '" + spacecraftName + "'";
             cmd = new SqlCommand(getOrbitRadius, cnn);
             reader = cmd.ExecuteReader();
             string payLoadName = "";
             while (reader.Read())
             {
-                orbitRadius = reader.GetString(0);
+                orbitRadius = reader.GetDouble(0);
             }
             reader.Close();
             cmd.Dispose();
@@ -126,8 +125,8 @@ namespace SpaceZ
                 reader.Close();
                 cmd.Dispose();
 
-                string getVehicleNameAlreadyInOrbit = "Select payloadName from vehicleInOrbit";
-                cmd = new SqlCommand(getPayloadName, cnn);
+                string getVehicleNameAlreadyInOrbit = "Select payloadName from vehicleInOrbit where spacecraftName = '" + spacecraftName + "'";
+                cmd = new SqlCommand(getVehicleNameAlreadyInOrbit, cnn);
                 reader = cmd.ExecuteReader();
                 string vehicleNameAlreadyInOrbit = "";
                 while (reader.Read())
@@ -153,7 +152,7 @@ namespace SpaceZ
             else
             {
                 Random rand = new Random();
-                double altitude = 0;
+                double altitude = rand.NextDouble();
                 double longitude = rand.NextDouble() * Math.PI * 2;
                 double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
                 double temperature = rand.Next();
@@ -163,6 +162,22 @@ namespace SpaceZ
         }
         private void payloadLaunchBtn_Click(object sender, RoutedEventArgs e)
         {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            SqlCommand cmd;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            string spacecraftName = comboBoxSpacecrafts.SelectedItem.ToString();
+            string payloadStatus = "Deployed";
+            cnn.Open();
+            string updatePayloadStatus = "Update vehicleInOrbit Set payLoadStatus ='"+ payloadStatus + "' where spacecraftName = '" + spacecraftName + "'";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand.ExecuteNonQuery();
+            cmd.Dispose();
+            cnn.Close();
+            MessageBox.Show("PayLoad Deployed");
 
         }
     }
