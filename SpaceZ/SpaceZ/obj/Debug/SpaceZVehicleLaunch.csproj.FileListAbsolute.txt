@@ -1,0 +1,16 @@
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\bin\Debug\SpaceZ.exe.config
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\bin\Debug\SpaceZ.exe
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\bin\Debug\SpaceZ.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZVehicleLaunch.csproj.AssemblyReference.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZVehicleLaunch.csproj.SuggestedBindingRedirects.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\MainWindow.g.cs
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\App.g.cs
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ_MarkupCompile.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ_MarkupCompile.lref
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\MainWindow.baml
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ.g.resources
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ.Properties.Resources.resources
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZVehicleLaunch.csproj.GenerateResource.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZVehicleLaunch.csproj.CoreCompileInputs.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ.exe
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZ\obj\Debug\SpaceZ.pdb

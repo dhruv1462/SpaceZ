@@ -1,0 +1,16 @@
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.exe.config
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.exe
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.SuggestedBindingRedirects.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\MainWindow.g.cs
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\App.g.cs
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo_MarkupCompile.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo_MarkupCompile.lref
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\MainWindow.baml
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.g.resources
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.Properties.Resources.resources
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.GenerateResource.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.CoreCompileInputs.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.exe
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.AssemblyReference.cache

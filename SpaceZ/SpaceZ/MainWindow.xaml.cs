@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,8 +178,10 @@ namespace SpaceZ
             adapter.UpdateCommand.ExecuteNonQuery();
             cmd.Dispose();
             cnn.Close();
+            Process p = new Process();
+            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
+            p.Start();
             MessageBox.Show("PayLoad Deployed");
-
         }
     }
 }

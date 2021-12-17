@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceZ", "SpaceZ\SpaceZ.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSN", "DSN\DSN.csproj", "{483EF656-9E0E-4840-9AAA-B3776F66E376}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceZPayloadInfo", "SpaceZPayloadInfo\SpaceZPayloadInfo.csproj", "{65622616-533A-47C7-B626-145304EBC4AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{483EF656-9E0E-4840-9AAA-B3776F66E376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{483EF656-9E0E-4840-9AAA-B3776F66E376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{483EF656-9E0E-4840-9AAA-B3776F66E376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65622616-533A-47C7-B626-145304EBC4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65622616-533A-47C7-B626-145304EBC4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65622616-533A-47C7-B626-145304EBC4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65622616-533A-47C7-B626-145304EBC4AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

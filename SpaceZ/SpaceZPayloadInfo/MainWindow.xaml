@@ -1,0 +1,17 @@
+﻿<Window x:Class="SpaceZPayloadInfo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpaceZPayloadInfo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="SELECT PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="186" />
+        <Label Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <ComboBox   x:Name = "comboBoxPayLoad" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold"/>
+        <TextBox FontWeight="Bold" x:Name="textData" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
+        <Button  FontWeight="Bold" x:Name="startDataButton"  Content="Start Data" HorizontalAlignment="Left" Margin="23,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startDataButton_Click"/>
+        <Button  FontWeight="Bold" x:Name="stopDataButton"  Content="Stop Data" HorizontalAlignment="Left" Margin="140,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="stopDataButton_Click"/>
+    </Grid>
+</Window>
