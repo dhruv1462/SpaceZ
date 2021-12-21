@@ -23,46 +23,25 @@ namespace DSN
     /// Interaction logic for CommunicationSystem.xaml
     /// </summary>
     /// [DataContract]
-    public class Telemetry
+    
+    [ServiceContract]
+    public interface ITelemetryService
     {
-        private string spacecraftName;
-        private double altitude;
-        private double latitude;
-        private double longitude;
-        private double timeToOrbit;
-        private double temperature;
-        private double counter;
-
-        [DataMember]
-        public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
-        [DataMember]
-        public double Altitude { get { return altitude; } set { altitude = value; } }
-        [DataMember]
-        public double Latitude { get { return latitude; } set { latitude = value; } }
-        [DataMember]
-        public double Longitude { get { return longitude; } set { longitude = value; } }
-        [DataMember]
-        public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
-        [DataMember]
-        public double Temperature { get { return temperature; } set { temperature = value; } }
-        [DataMember]
-        public double Counter { get { return counter; } set { counter = value; } }
-
+        [OperationContract]
+        string getTelemetry(string spacecraftName);
     }
 
-    [ServiceContract]
-    public interface IMessageService
+   [ServiceContract]
+    public interface IPayloadDataService
     {
         [OperationContract]
-        [FaultContract(typeof(Telemetry))]
-        Telemetry getTelemetry();
-        [OperationContract]
-        string getTelmetry(string spacecraftName);
+        string getPayLoadInfo(string payloadName);
     }
 
     public partial class CommunicationSystem : Window
     {
-        private DispatcherTimer timer = new DispatcherTimer();
+        private DispatcherTimer timerTelemetry = new DispatcherTimer();
+        private DispatcherTimer timerPayload = new DispatcherTimer();
         public CommunicationSystem()
         {
             
@@ -87,27 +66,64 @@ namespace DSN
         }
         private void startDataButton_Click(object sender, RoutedEventArgs e)
         {
+           Process p = new Process();
+            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
+            p.Start();
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataReader reader;
+            string payloadType = "";
+            string selectQuery = "Select payloadType, spaceCraftName, orbitRadius from spacecraftinfo Where payloadName = '" + payloadName + "'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                payloadType = reader.GetString(0);
 
+            }
+            timerPayload.Tick += new EventHandler(payloadData);
+            timerPayload.Interval = new TimeSpan(0, 0, 1);
+            timerPayload.Start();
         }
 
+        private void payloadData(object sender, EventArgs e)
+        {
+            string uri = "net.tcp://localhost:6565/MainWindow";
+            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
+            var channel = new ChannelFactory<IPayloadDataService>(binding);
+            var endpoint = new EndpointAddress(uri);
+            var proxy = channel.CreateChannel(endpoint);
+            var result = proxy?.getPayLoadInfo(comboBoxPayload.SelectedItem.ToString());
+            if (result != null)
+            {
+                Console.WriteLine(result);
+                payloadDataText.Text = result;
+
+            }
+        }
+       
         private void startTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
             Process p = new Process();
             p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
             p.Start();
-            timer.Tick += new EventHandler(timerTick);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            timerTelemetry.Tick += new EventHandler(telemeteryInfo);
+            timerTelemetry.Interval = new TimeSpan(0, 0, 1);
+            timerTelemetry.Start();
         }
 
-        private void timerTick(object sender, EventArgs e)
+        private void telemeteryInfo(object sender, EventArgs e)
         {
             string uri = "net.tcp://localhost:6565/MainWindow";
             NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
-            var channel = new ChannelFactory<IMessageService>(binding);
+            var channel = new ChannelFactory<ITelemetryService>(binding);
             var endpoint = new EndpointAddress(uri);
             var proxy = channel.CreateChannel(endpoint);
-            var result = proxy?.getTelmetry(comboBoxSpaceCraft.SelectedItem.ToString());
+            var result = proxy?.getTelemetry(comboBoxSpaceCraft.SelectedItem.ToString());
             if (result != null)
             {
                 Console.WriteLine(result);
@@ -118,8 +134,30 @@ namespace DSN
 
         private void stopTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
+            timerTelemetry.Stop();
             textTelemetry.Clear();
+            foreach (var process in Process.GetProcessesByName("SpaceZ"))
+            {
+                process.Kill();
+            }
+
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void stopDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            timerPayload.Stop();
+            payloadDataText.Clear();
+            foreach (var process in Process.GetProcessesByName("SpaceZPayloadInfo"))
+            {
+                process.Kill();
+            }
         }
     }
 }

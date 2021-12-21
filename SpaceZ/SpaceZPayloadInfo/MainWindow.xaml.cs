@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,78 @@ namespace SpaceZPayloadInfo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
+    [ServiceContract]
+    public interface IPayloadDataService
+    {
+        [OperationContract]
+        string getPayLoadInfo(string payloadName);
+    }
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class PayloadDataService : IPayloadDataService
+    {
+        string spaceCraftName;
+        double orbitRadius;
+        public string getPayLoadInfo(string payloadName)
+        {
+            string data = "";
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataReader reader;
+            string payloadType = "";
+            string selectQuery = "Select payloadType, spaceCraftName, orbitRadius from spacecraftinfo Where payloadName = '" + payloadName + "'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                payloadType = reader.GetString(0);
+                spaceCraftName = reader.GetString(1);
+                orbitRadius = reader.GetDouble(2);
+
+            }
+
+            reader.Close();
+            cnn.Close();
+
+            if (payloadType.Equals("Communication"))
+            {
+                Random rand = new Random();
+                double uplink = rand.NextDouble();
+                double downlink = rand.NextDouble();
+                double transponder = rand.NextDouble();
+                data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Communication\n Communication Data\n Uplink: " + uplink + " MBps\n Downlink: " + downlink + " MBps% ActiveTransponder: " + transponder + " inch";
+                int milliseconds = 10000;
+                Thread.Sleep(milliseconds);
+            }
+            else if (payloadType.Equals("Spy"))
+            {
+                Random rand = new Random();
+                double bytes = rand.NextDouble();
+                data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Spy\n Image Data\n Image: " + bytes + " bytes ";
+                int milliseconds = 30000;
+                Thread.Sleep(milliseconds);
+            }
+            else if (payloadType.Equals("Scientific"))
+            {
+                Random rand = new Random();
+                double rainfall = rand.NextDouble();
+                double humidity = rand.NextDouble();
+                double snow = rand.NextDouble();
+                data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Scientific\n Weather Data\n Rainfall: " + rainfall + " mm\n Humidity: " + humidity + " % snow: " + snow + " inch";
+                int milliseconds = 5000;
+                Thread.Sleep(milliseconds);
+
+            }
+           return data;
+
+        }
+    }
+    
     public partial class MainWindow : Window
     {
         private DispatcherTimer timer = new DispatcherTimer();
@@ -45,6 +119,23 @@ namespace SpaceZPayloadInfo
             }
             reader.Close();
             cnn.Close();
+
+            var uris = new Uri[1];
+            string address = "net.tcp://localhost:6565/MainWindow";
+            uris[0] = new Uri(address);
+            IPayloadDataService payloadData = new PayloadDataService();
+            ServiceHost host = new ServiceHost(payloadData, uris);
+            var binding = new NetTcpBinding(SecurityMode.None);
+            host.AddServiceEndpoint(typeof(IPayloadDataService), binding, "");
+            host.Opened += Host_Opened;
+            host.Open();
+            
+
+        }
+
+        private void Host_Opened(object sender, EventArgs e)
+        {
+            Console.WriteLine("Connected");
         }
 
         private void startDataButton_Click(object sender, RoutedEventArgs e)
@@ -97,6 +188,7 @@ namespace SpaceZPayloadInfo
             double humidity = rand.NextDouble();
             double snow = rand.NextDouble();
             textData.Text = " Launch Vehicle Config\n Name: "+spaceCraftName+"\n Orbit: "+orbitRadius+"\n Payload Config\n Name: "+ comboBoxPayLoad.SelectedItem.ToString() + "\n Type: Scientific\n Weather Data\n Rainfall: " + rainfall+ " mm\n Humidity: " + humidity + " % snow: " + snow + " inch";
+
         }
         public void timerTickCommunication(object sender, EventArgs e) {
             Random rand = new Random();

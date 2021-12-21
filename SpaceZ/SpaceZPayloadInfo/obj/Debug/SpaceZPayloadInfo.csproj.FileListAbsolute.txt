@@ -1,6 +1,5 @@
-C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.exe.config
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.exe
-C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\bin\Debug\SpaceZPayloadInfo.exe.config
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.SuggestedBindingRedirects.cache
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\MainWindow.g.cs
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\App.g.cs

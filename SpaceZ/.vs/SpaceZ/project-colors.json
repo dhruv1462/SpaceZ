@@ -55,7 +55,17 @@
       "ProjectGuid": "ff1bb00e-4f55-4ea1-898b-3eb219462e67",
       "DisplayName": "IpcTestModal",
       "ColorIndex": 9
+    },
+    "7d731395-413a-49dd-a426-b8560c384630": {
+      "ProjectGuid": "7d731395-413a-49dd-a426-b8560c384630",
+      "DisplayName": "InformationService",
+      "ColorIndex": 10
+    },
+    "3f8d0956-4793-4b26-bff1-734559881f3d": {
+      "ProjectGuid": "3f8d0956-4793-4b26-bff1-734559881f3d",
+      "DisplayName": "LaunchSpaceCraftTelemetry",
+      "ColorIndex": 11
     }
   },
-  "NextColorIndex": 10
+  "NextColorIndex": 12
 }

@@ -13,68 +13,19 @@ namespace SpaceZ
     /// Interaction logic for MainWindow.xaml
     /// </summary>
    
-    [DataContract]
-    public class Telemetry
-    {
-        [DataMember]
-        private string spacecraftName;
-        [DataMember]
-        private double altitude;
-        [DataMember]
-        private double latitude;
-        [DataMember]
-        private double longitude;
-        [DataMember]
-        private double timeToOrbit;
-        [DataMember]
-        private double temperature;
-        [DataMember]
-        private double counter;
-
-        [DataMember]
-        public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
-        [DataMember]
-        public double Altitude { get { return altitude; } set { altitude = value; } }
-        [DataMember]
-        public double Latitude { get { return latitude; } set { latitude = value; } }
-        [DataMember]
-        public double Longitude { get { return longitude; } set { longitude = value; } }
-        [DataMember]
-        public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
-        [DataMember]
-        public double Temperature { get { return temperature; } set { temperature = value; } }
-        [DataMember]
-        public double Counter { get { return counter; } set { counter = value; } }
-
-    }
-
+    
     [ServiceContract]
-    public interface IMessageService
+    public interface ITelemetryService
     {
 
         [OperationContract]
-        [FaultContract(typeof(Telemetry))]
-        Telemetry getTelemetry();
-        [OperationContract]
-        string getTelmetry(string spacecraftName);
+        string getTelemetry(string spacecraftName);
     }
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class MessageService : IMessageService
+    public class TelemetryService : ITelemetryService
     {
-        public Telemetry getTelemetry()
-        {
-            Telemetry data = new Telemetry();
-            data.SpacecraftName = "efvefv";
-            data.Temperature = 78;
-            data.Altitude = 88;
-            data.Longitude = 55;
-            data.Latitude = 98;
-            data.TimeToOrbit = 67;
-            data.Counter = 56;
-            return data;
-        }
-        public string getTelmetry(string spacecraftName)
+        public string getTelemetry(string spacecraftName)
         {
             string data;
             double orbitRadius = 0;
@@ -152,7 +103,6 @@ namespace SpaceZ
         }
     }
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public partial class MainWindow : Window
     {
         private double counter = 0;
@@ -187,10 +137,10 @@ namespace SpaceZ
             var uris = new Uri[1];
             string address = "net.tcp://localhost:6565/MainWindow";
             uris[0] = new Uri(address);
-            IMessageService message = new MessageService();
+            ITelemetryService message = new TelemetryService();
             ServiceHost host = new ServiceHost(message, uris);
             var binding = new NetTcpBinding(SecurityMode.None);
-            host.AddServiceEndpoint(typeof(IMessageService), binding, "");
+            host.AddServiceEndpoint(typeof(ITelemetryService), binding, "");
             host.Opened += Host_Opened;
             host.Open(); 
 
@@ -336,29 +286,5 @@ namespace SpaceZ
             MessageBox.Show("PayLoad Deployed");
         }
 
-       /* public Telemetry getTelemetry()
-        {
-            Telemetry data = new Telemetry();
-            data.SpacecraftName = "efvefv";
-            data.Temperature = 78;
-            data.Altitude = 88;
-            data.Longitude = 55;
-            data.Latitude = 98;
-            data.TimeToOrbit = 67;
-            data.Counter = 56;
-            return data;
-        }
-
-        public string getTelmetry(string spacecraftRequested)
-        {
-            Random rand = new Random();
-            double altitude = rand.NextDouble();
-            double longitude = rand.NextDouble() * Math.PI * 2;
-            double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
-            double temperature = rand.Next();
-            double timeToOrbit = rand.Next();
-            string data = spacecraftRequested + "{\n altitude : " + altitude + "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + timeToOrbit + "\n}";
-            return data;
-        }*/
     }
 }
