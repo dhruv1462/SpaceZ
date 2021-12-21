@@ -15,67 +15,57 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ServiceModel;
 using System.Runtime.Serialization;
-using InformationService;
+using System.Windows.Threading;
 
 namespace DSN
 {
     /// <summary>
     /// Interaction logic for CommunicationSystem.xaml
     /// </summary>
+    /// [DataContract]
+    public class Telemetry
+    {
+        private string spacecraftName;
+        private double altitude;
+        private double latitude;
+        private double longitude;
+        private double timeToOrbit;
+        private double temperature;
+        private double counter;
+
+        [DataMember]
+        public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
+        [DataMember]
+        public double Altitude { get { return altitude; } set { altitude = value; } }
+        [DataMember]
+        public double Latitude { get { return latitude; } set { latitude = value; } }
+        [DataMember]
+        public double Longitude { get { return longitude; } set { longitude = value; } }
+        [DataMember]
+        public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
+        [DataMember]
+        public double Temperature { get { return temperature; } set { temperature = value; } }
+        [DataMember]
+        public double Counter { get { return counter; } set { counter = value; } }
+
+    }
+
+    [ServiceContract]
+    public interface IMessageService
+    {
+        [OperationContract]
+        [FaultContract(typeof(Telemetry))]
+        Telemetry getTelemetry();
+        [OperationContract]
+        string getTelmetry(string spacecraftName);
+    }
+
     public partial class CommunicationSystem : Window
     {
-         [DataContract]
-         public class Telemetry
-         {
-             private string spacecraftName;
-             private double altitude;
-             private double latitude;
-             private double longitude;
-             private double timeToOrbit;
-             private double temperature;
-             private double counter;
-
-             [DataMember]
-             public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
-             [DataMember]
-             public double Altitude { get { return altitude; } set { altitude = value; } }
-             [DataMember]
-             public double Latitude { get { return latitude; } set { latitude = value; } }
-             [DataMember]
-             public double Longitude { get { return longitude; } set { longitude = value; } }
-             [DataMember]
-             public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
-             [DataMember]
-             public double Temperature { get { return temperature; } set { temperature = value; } }
-             [DataMember]
-             public double Counter { get { return counter; } set { counter = value; } }
-
-         }
-
-         [ServiceContract]
-         public interface IMessageService
-         {
-            /*[OperationContract]
-            [FaultContract(typeof(Telemetry))]
-            Telemetry getTelemetry();*/
-            [OperationContract]
-            string getTelmetry();
-        }
-     public CommunicationSystem()
+        private DispatcherTimer timer = new DispatcherTimer();
+        public CommunicationSystem()
         {
-            string uri = "net.tcp://localhost:6565/MessageService";
-            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
-            var channel = new ChannelFactory<IMessageService>(binding);
-            var endpoint = new EndpointAddress(uri);
-            var proxy = channel.CreateChannel(endpoint);
-            var result = proxy?.getTelmetry();
-            if (result != null)
-            {
-                Console.WriteLine(result);
-
-            }
             
-
             InitializeComponent();
             SqlConnection cnn;
             string connetionString;
@@ -89,18 +79,12 @@ namespace DSN
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                comboBoxVehicle.Items.Add("Spacecraft: " + reader.GetValue(0));
-                comboBoxVehicle.Items.Add("Payload :" + reader.GetValue(1));
+                comboBoxSpaceCraft.Items.Add(reader.GetValue(0));
+                comboBoxPayload.Items.Add(reader.GetValue(1));
             }
             reader.Close();
             cnn.Close();
         }
-
-        private void comboBoxVehicle_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void startDataButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -111,6 +95,31 @@ namespace DSN
             Process p = new Process();
             p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
             p.Start();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+
+        private void timerTick(object sender, EventArgs e)
+        {
+            string uri = "net.tcp://localhost:6565/MainWindow";
+            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
+            var channel = new ChannelFactory<IMessageService>(binding);
+            var endpoint = new EndpointAddress(uri);
+            var proxy = channel.CreateChannel(endpoint);
+            var result = proxy?.getTelmetry(comboBoxSpaceCraft.SelectedItem.ToString());
+            if (result != null)
+            {
+                Console.WriteLine(result);
+                textTelemetry.Text = result;
+
+            }
+        }
+
+        private void stopTelemetryButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+            textTelemetry.Clear();
         }
     }
 }

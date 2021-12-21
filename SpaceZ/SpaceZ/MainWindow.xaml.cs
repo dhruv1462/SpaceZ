@@ -12,75 +12,155 @@ namespace SpaceZ
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+   
+    [DataContract]
+    public class Telemetry
+    {
+        [DataMember]
+        private string spacecraftName;
+        [DataMember]
+        private double altitude;
+        [DataMember]
+        private double latitude;
+        [DataMember]
+        private double longitude;
+        [DataMember]
+        private double timeToOrbit;
+        [DataMember]
+        private double temperature;
+        [DataMember]
+        private double counter;
+
+        [DataMember]
+        public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
+        [DataMember]
+        public double Altitude { get { return altitude; } set { altitude = value; } }
+        [DataMember]
+        public double Latitude { get { return latitude; } set { latitude = value; } }
+        [DataMember]
+        public double Longitude { get { return longitude; } set { longitude = value; } }
+        [DataMember]
+        public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
+        [DataMember]
+        public double Temperature { get { return temperature; } set { temperature = value; } }
+        [DataMember]
+        public double Counter { get { return counter; } set { counter = value; } }
+
+    }
+
+    [ServiceContract]
+    public interface IMessageService
+    {
+
+        [OperationContract]
+        [FaultContract(typeof(Telemetry))]
+        Telemetry getTelemetry();
+        [OperationContract]
+        string getTelmetry(string spacecraftName);
+    }
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class MessageService : IMessageService
+    {
+        public Telemetry getTelemetry()
+        {
+            Telemetry data = new Telemetry();
+            data.SpacecraftName = "efvefv";
+            data.Temperature = 78;
+            data.Altitude = 88;
+            data.Longitude = 55;
+            data.Latitude = 98;
+            data.TimeToOrbit = 67;
+            data.Counter = 56;
+            return data;
+        }
+        public string getTelmetry(string spacecraftName)
+        {
+            string data;
+            double orbitRadius = 0;
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataReader reader;
+            string selectQuery = "Select timespan from timeToOrbit Where spaceCraftName = '" + spacecraftName + "'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            double timeStamp = 0;
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                timeStamp = reader.GetDouble(0);
+            }
+            double currenttimestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            double counter = (timeStamp - currenttimestamp);
+            reader.Close();
+            cmd.Dispose();
+            reader.Close();
+            cmd.Dispose();
+            cnn.Close();
+
+            if (counter <= 0)
+            {
+                string payloadStatus = "NotDeployed";
+                cnn.Open();
+                string getPayloadName = "Select payloadName, orbitRadius from spacecraftinfo where spacecraftName = '" + spacecraftName + "'";
+                cmd = new SqlCommand(getPayloadName, cnn);
+                reader = cmd.ExecuteReader();
+                string payLoadName = "";
+                while (reader.Read())
+                {
+                    payLoadName = reader.GetString(0);
+                    orbitRadius = reader.GetDouble(1);
+                }
+                reader.Close();
+                cmd.Dispose();
+
+                string getVehicleNameAlreadyInOrbit = "Select payloadName from vehicleInOrbit where spacecraftName = '" + spacecraftName + "'";
+                cmd = new SqlCommand(getVehicleNameAlreadyInOrbit, cnn);
+                reader = cmd.ExecuteReader();
+                string vehicleNameAlreadyInOrbit = "";
+                while (reader.Read())
+                {
+                    vehicleNameAlreadyInOrbit = reader.GetString(0);
+                }
+                reader.Close();
+                cmd.Dispose();
+                if (vehicleNameAlreadyInOrbit != payLoadName)
+                {
+                    string insertQuery = "Insert Into vehicleInOrbit (spacecraftName, payloadName, payLoadStatus) values('" + spacecraftName + "','" + payLoadName + "','" + payloadStatus + "')";
+                    cmd = new SqlCommand(insertQuery, cnn);
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.InsertCommand = cmd;
+                    adapter.InsertCommand.ExecuteNonQuery();
+                    cnn.Close();
+
+                }
+                data = "[ORBIT REACHED FOR : " + spacecraftName + "]";
+             }
+            else
+            {
+                Random rand = new Random();
+                double altitude = rand.NextDouble();
+                double longitude = rand.NextDouble() * Math.PI * 2;
+                double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
+                double temperature = rand.Next();
+                data = spacecraftName + "{\n altitude : " + altitude + "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + counter + "\n orbitRadius : " + orbitRadius + "\n}";
+            }
+            return data;
+        }
+    }
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public partial class MainWindow : Window
     {
         private double counter = 0;
         private double orbitRadius = 0;
         private DispatcherTimer timer = new DispatcherTimer();
 
-        [DataContract]
-        public class Telemetry
-        {
-            private string spacecraftName;
-            private double altitude;
-            private double latitude;
-            private double longitude;
-            private double timeToOrbit;
-            private double temperature;
-            private double counter;
-
-            [DataMember]
-            public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
-            [DataMember]
-            public double Altitude { get { return altitude; } set { altitude = value; } }
-            [DataMember]
-            public double Latitude { get { return latitude; } set { latitude = value; } }
-            [DataMember]
-            public double Longitude { get { return longitude; } set { longitude = value; } }
-            [DataMember]
-            public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
-            [DataMember]
-            public double Temperature { get { return temperature; } set { temperature = value; } }
-            [DataMember]
-            public double Counter { get { return counter; } set { counter = value; } }
-
-        }
-
-        [ServiceContract]
-        public interface IMessageService
-        {
-
-            /* [OperationContract]
-             [FaultContract(typeof(Telemetry))]
-             Telemetry getTelemetry();*/
-            [OperationContract]
-            string getTelmetry();
-         }
-
-        [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-        public class MessageService : IMessageService
-        {
-
-            /* public Telemetry getTelemetry()
-             {
-                 Telemetry data = new Telemetry();
-                 data.SpacecraftName = "efvefv";
-                 data.Temperature = 78;
-                 data.Altitude = 88;
-                 data.Longitude = 55;
-                 data.Latitude = 98;
-                 data.TimeToOrbit = 67;
-                 data.Counter = 56;
-                 return data;        
-             } */
-            public string getTelmetry()
-            {
-                string abc = "wassup";
-                return(abc + "hiiii from spaceZ");
-            }
-        }
-
-        public MainWindow()
+        
+        public MainWindow() 
         {
 
             InitializeComponent();
@@ -105,7 +185,7 @@ namespace SpaceZ
 
             
             var uris = new Uri[1];
-            string address = "net.tcp://localhost:6565/MessageService";
+            string address = "net.tcp://localhost:6565/MainWindow";
             uris[0] = new Uri(address);
             IMessageService message = new MessageService();
             ServiceHost host = new ServiceHost(message, uris);
@@ -255,5 +335,30 @@ namespace SpaceZ
             p.Start();
             MessageBox.Show("PayLoad Deployed");
         }
+
+       /* public Telemetry getTelemetry()
+        {
+            Telemetry data = new Telemetry();
+            data.SpacecraftName = "efvefv";
+            data.Temperature = 78;
+            data.Altitude = 88;
+            data.Longitude = 55;
+            data.Latitude = 98;
+            data.TimeToOrbit = 67;
+            data.Counter = 56;
+            return data;
+        }
+
+        public string getTelmetry(string spacecraftRequested)
+        {
+            Random rand = new Random();
+            double altitude = rand.NextDouble();
+            double longitude = rand.NextDouble() * Math.PI * 2;
+            double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
+            double temperature = rand.Next();
+            double timeToOrbit = rand.Next();
+            string data = spacecraftRequested + "{\n altitude : " + altitude + "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + timeToOrbit + "\n}";
+            return data;
+        }*/
     }
 }

@@ -1,7 +1,0 @@
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\bin\LaunchSpaceCraftTelemetry.dll.config
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\bin\LaunchSpaceCraftTelemetry.dll
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\bin\LaunchSpaceCraftTelemetry.pdb
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\obj\Debug\LaunchSpaceCraftTelemetry.csproj.AssemblyReference.cache
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\obj\Debug\LaunchSpaceCraftTelemetry.csproj.CoreCompileInputs.cache
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\obj\Debug\LaunchSpaceCraftTelemetry.dll
-C:\Intel Internship\Project\SpaceZ\SpaceZ\LaunchSpaceCraftTelemetry\obj\Debug\LaunchSpaceCraftTelemetry.pdb

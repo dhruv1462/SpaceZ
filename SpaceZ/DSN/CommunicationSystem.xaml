@@ -7,16 +7,18 @@
         mc:Ignorable="d"
         Title="CommunicationSystem" Height="450" Width="800">
     <Grid>
-        <Label Content="SELECT SPACECRAFT OR PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
+        <Label Content="SELECT PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
         <Label Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
-        <Label Content="Telemetry OF SPACECRAFT OR PAYLOAD " HorizontalAlignment="Left" Margin="333,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
-        <ComboBox   x:Name = "comboBoxVehicle" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold" SelectionChanged="comboBoxVehicle_SelectionChanged"/>
+        <Label Content="SELECT SPACECRAFT" HorizontalAlignment="Left" Margin="400,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
+        <Label Content="TELEMETRY OF SPACECRAFT " HorizontalAlignment="Left" Margin="391,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <ComboBox   x:Name = "comboBoxPayload" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold" />
+        <ComboBox   x:Name = "comboBoxSpaceCraft" HorizontalAlignment = "Left" Margin = "400,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold"/>
         <TextBox FontWeight="Bold" x:Name="textData" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
         <TextBox FontWeight="Bold" x:Name="textTelemetry" HorizontalAlignment="Left" Height="229" Margin="396,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
         <Button  FontWeight="Bold" x:Name="startDataButton"  Content="Start Data" HorizontalAlignment="Left" Margin="23,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startDataButton_Click" />
         <Button  FontWeight="Bold" x:Name="stopDataButton"  Content="Stop Data" HorizontalAlignment="Left" Margin="140,147,0,0" VerticalAlignment="Top" Width="112" Height="25" />
         <Button  FontWeight="Bold" x:Name="startTelemetryButton"  Content="Start Telemetry" HorizontalAlignment="Left" Margin="396,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startTelemetryButton_Click"/>
-        <Button  FontWeight="Bold" x:Name="stopTelemetryButton"  Content="Stop Telemetry" HorizontalAlignment="Left" Margin="515,147,0,0" VerticalAlignment="Top" Width="112" Height="25"/>
+        <Button  FontWeight="Bold" x:Name="stopTelemetryButton"  Content="Stop Telemetry" HorizontalAlignment="Left" Margin="515,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="stopTelemetryButton_Click"/>
 
     </Grid>
 </Window>
