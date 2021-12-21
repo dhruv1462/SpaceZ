@@ -7,14 +7,16 @@
         mc:Ignorable="d"
         Title="CommunicationSystem" Height="450" Width="800">
     <Grid>
-        <Button  FontWeight="Bold" x:Name="btnBack" Content="Back" HorizontalAlignment="Right" Margin="12,9,0,0" VerticalAlignment="Bottom" Width="75" Click="btnBack_Click"/>
-        <Label FontSize="16" FontWeight="Bold" Content="List of spacecarft" HorizontalAlignment="Left" Margin="563,29,0,0" VerticalAlignment="Top" Width="140" RenderTransformOrigin="0.912,0.488"/>
-        <StackPanel HorizontalAlignment="Left" Height="86" Margin="476,65,0,0" VerticalAlignment="Top" Width="314">
-            <ComboBox x:Name="allSpacecraftCombo" Margin="28,0,27,0" Height="33" FontWeight="Bold" SelectionChanged="allSpacecraftCombo_SelectionChanged"/>
-            <Label  FontWeight="Bold"/>
-            <Button  FontWeight="Bold" x:Name="btnShowSpacecraft" IsEnabled="True" Content="Show info of Spacecraft" Height="34" Margin="27,0,29,0" Click="btnShowSpacecraft_Click"/>
-        </StackPanel>
-        <TextBox FontWeight="Bold" x:Name="txtSpacecraftData" HorizontalAlignment="Left" Height="182" Margin="507,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" TextChanged="txtSpacecraftData_TextChanged"/>
+        <Label Content="SELECT SPACECRAFT OR PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
+        <Label Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <Label Content="Telemetry OF SPACECRAFT OR PAYLOAD " HorizontalAlignment="Left" Margin="333,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <ComboBox   x:Name = "comboBoxVehicle" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold" SelectionChanged="comboBoxVehicle_SelectionChanged"/>
+        <TextBox FontWeight="Bold" x:Name="textData" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
+        <TextBox FontWeight="Bold" x:Name="textTelemetry" HorizontalAlignment="Left" Height="229" Margin="396,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
+        <Button  FontWeight="Bold" x:Name="startDataButton"  Content="Start Data" HorizontalAlignment="Left" Margin="23,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startDataButton_Click" />
+        <Button  FontWeight="Bold" x:Name="stopDataButton"  Content="Stop Data" HorizontalAlignment="Left" Margin="140,147,0,0" VerticalAlignment="Top" Width="112" Height="25" />
+        <Button  FontWeight="Bold" x:Name="startTelemetryButton"  Content="Start Telemetry" HorizontalAlignment="Left" Margin="396,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startTelemetryButton_Click"/>
+        <Button  FontWeight="Bold" x:Name="stopTelemetryButton"  Content="Stop Telemetry" HorizontalAlignment="Left" Margin="515,147,0,0" VerticalAlignment="Top" Width="112" Height="25"/>
 
     </Grid>
 </Window>

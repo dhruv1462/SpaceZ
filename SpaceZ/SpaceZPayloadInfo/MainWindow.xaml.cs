@@ -43,7 +43,6 @@ namespace SpaceZPayloadInfo
             {
                 comboBoxPayLoad.Items.Add(reader.GetValue(0));
             }
-
             reader.Close();
             cnn.Close();
         }
@@ -113,6 +112,45 @@ namespace SpaceZPayloadInfo
         }
 
         private void stopDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+        }
+
+        private void startTelemetryButton_Click(object sender, RoutedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            cnn = new SqlConnection(connetionString);
+            cnn.Open();
+            SqlCommand cmd;
+            SqlDataReader reader;
+            string selectQuery = "Select orbitRadius from spacecraftinfo Where payloadName = '" + comboBoxPayLoad.SelectedItem.ToString() + "'";
+            cmd = new SqlCommand(selectQuery, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                orbitRadius = reader.GetDouble(0);
+            }
+
+            reader.Close();
+            cnn.Close();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+
+        public void timerTick(object sender, EventArgs e) {
+            Random rand = new Random();
+            double longitude = rand.NextDouble() * Math.PI * 2;
+            double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
+            double temperature = rand.Next();
+            textTelemetry.Text = "{\n altitude : " + orbitRadius + "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + 0 + "\n}";
+
+        }
+
+
+        private void stopTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
         }

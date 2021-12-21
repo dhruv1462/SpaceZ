@@ -20,7 +20,42 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "65622616-533a-47c7-b626-145304ebc4aa": {
+      "ProjectGuid": "65622616-533a-47c7-b626-145304ebc4aa",
+      "DisplayName": "SpaceZPayloadInfo",
+      "ColorIndex": 3
+    },
+    "fc2a29dd-ef25-4ca0-9449-10615dbb6a03": {
+      "ProjectGuid": "fc2a29dd-ef25-4ca0-9449-10615dbb6a03",
+      "DisplayName": "SpaceZWcfService",
+      "ColorIndex": 4
+    },
+    "def9479e-8f51-4aa7-8c66-c237d81cd2a2": {
+      "ProjectGuid": "def9479e-8f51-4aa7-8c66-c237d81cd2a2",
+      "DisplayName": "MessageService",
+      "ColorIndex": 5
+    },
+    "d228d2bf-b9ee-4257-b1c4-0d508f67fd5d": {
+      "ProjectGuid": "d228d2bf-b9ee-4257-b1c4-0d508f67fd5d",
+      "DisplayName": "TelemetryDataService",
+      "ColorIndex": 6
+    },
+    "26cb2a2a-c908-4621-8ba6-aa61a0ed4eaa": {
+      "ProjectGuid": "26cb2a2a-c908-4621-8ba6-aa61a0ed4eaa",
+      "DisplayName": "InfromationService",
+      "ColorIndex": 7
+    },
+    "d98843eb-5f54-4916-ab10-aee0a10570b9": {
+      "ProjectGuid": "d98843eb-5f54-4916-ab10-aee0a10570b9",
+      "DisplayName": "InformationProvider",
+      "ColorIndex": 8
+    },
+    "ff1bb00e-4f55-4ea1-898b-3eb219462e67": {
+      "ProjectGuid": "ff1bb00e-4f55-4ea1-898b-3eb219462e67",
+      "DisplayName": "IpcTestModal",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 10
 }

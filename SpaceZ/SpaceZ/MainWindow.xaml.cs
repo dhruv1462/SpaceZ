@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace SpaceZ
@@ -24,10 +15,74 @@ namespace SpaceZ
     public partial class MainWindow : Window
     {
         private double counter = 0;
-        private DispatcherTimer timer = new DispatcherTimer();
         private double orbitRadius = 0;
+        private DispatcherTimer timer = new DispatcherTimer();
+
+        [DataContract]
+        public class Telemetry
+        {
+            private string spacecraftName;
+            private double altitude;
+            private double latitude;
+            private double longitude;
+            private double timeToOrbit;
+            private double temperature;
+            private double counter;
+
+            [DataMember]
+            public string SpacecraftName { get { return spacecraftName; } set { spacecraftName = value; } }
+            [DataMember]
+            public double Altitude { get { return altitude; } set { altitude = value; } }
+            [DataMember]
+            public double Latitude { get { return latitude; } set { latitude = value; } }
+            [DataMember]
+            public double Longitude { get { return longitude; } set { longitude = value; } }
+            [DataMember]
+            public double TimeToOrbit { get { return timeToOrbit; } set { timeToOrbit = value; } }
+            [DataMember]
+            public double Temperature { get { return temperature; } set { temperature = value; } }
+            [DataMember]
+            public double Counter { get { return counter; } set { counter = value; } }
+
+        }
+
+        [ServiceContract]
+        public interface IMessageService
+        {
+
+            /* [OperationContract]
+             [FaultContract(typeof(Telemetry))]
+             Telemetry getTelemetry();*/
+            [OperationContract]
+            string getTelmetry();
+         }
+
+        [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+        public class MessageService : IMessageService
+        {
+
+            /* public Telemetry getTelemetry()
+             {
+                 Telemetry data = new Telemetry();
+                 data.SpacecraftName = "efvefv";
+                 data.Temperature = 78;
+                 data.Altitude = 88;
+                 data.Longitude = 55;
+                 data.Latitude = 98;
+                 data.TimeToOrbit = 67;
+                 data.Counter = 56;
+                 return data;        
+             } */
+            public string getTelmetry()
+            {
+                string abc = "wassup";
+                return(abc + "hiiii from spaceZ");
+            }
+        }
+
         public MainWindow()
         {
+
             InitializeComponent();
             SqlConnection cnn;
             string connetionString;
@@ -47,7 +102,25 @@ namespace SpaceZ
             reader.Close();
             cnn.Close();
             payloadLaunchBtn.IsEnabled = false;
+
+            
+            var uris = new Uri[1];
+            string address = "net.tcp://localhost:6565/MessageService";
+            uris[0] = new Uri(address);
+            IMessageService message = new MessageService();
+            ServiceHost host = new ServiceHost(message, uris);
+            var binding = new NetTcpBinding(SecurityMode.None);
+            host.AddServiceEndpoint(typeof(IMessageService), binding, "");
+            host.Opened += Host_Opened;
+            host.Open(); 
+
         }
+
+        private void Host_Opened(object sender, EventArgs e)
+        {
+            Console.WriteLine("message service started");
+        }
+
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -85,7 +158,6 @@ namespace SpaceZ
             string getOrbitRadius = "Select orbitRadius from spacecraftinfo where spacecraftName = '" + spacecraftName + "'";
             cmd = new SqlCommand(getOrbitRadius, cnn);
             reader = cmd.ExecuteReader();
-            string payLoadName = "";
             while (reader.Read())
             {
                 orbitRadius = reader.GetDouble(0);
@@ -104,7 +176,7 @@ namespace SpaceZ
         public void timerTick(object sender, EventArgs e)
         {
             counter--;
-            if(counter <= 0)
+            if (counter <= 0)
             {
                 SqlConnection cnn;
                 string connetionString;
@@ -157,7 +229,7 @@ namespace SpaceZ
                 double longitude = rand.NextDouble() * Math.PI * 2;
                 double latitude = Math.Acos(rand.NextDouble() * 2 - 1);
                 double temperature = rand.Next();
-                textTelemetry.Text = "{\n altitude : "+altitude+ "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + counter + "\n}";
+                textTelemetry.Text = "{\n altitude : " + altitude + "\n latitude : " + latitude + "\n longitude : " + longitude + "\n temperature : " + temperature + "\n timeToOrbit : " + counter + "\n}";
 
             }
         }
@@ -172,7 +244,7 @@ namespace SpaceZ
             string spacecraftName = comboBoxSpacecrafts.SelectedItem.ToString();
             string payloadStatus = "Deployed";
             cnn.Open();
-            string updatePayloadStatus = "Update vehicleInOrbit Set payLoadStatus ='"+ payloadStatus + "' where spacecraftName = '" + spacecraftName + "'";
+            string updatePayloadStatus = "Update vehicleInOrbit Set payLoadStatus ='" + payloadStatus + "' where spacecraftName = '" + spacecraftName + "'";
             cmd = new SqlCommand(updatePayloadStatus, cnn);
             adapter.UpdateCommand = new SqlCommand(updatePayloadStatus, cnn);
             adapter.UpdateCommand.ExecuteNonQuery();

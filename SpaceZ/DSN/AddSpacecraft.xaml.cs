@@ -36,7 +36,9 @@ namespace DSN
             connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             cnn = new SqlConnection(connetionString);
             SqlCommand cmd;
+#pragma warning disable CS0168 // The variable 'reader' is declared but never used
             SqlDataReader reader;
+#pragma warning restore CS0168 // The variable 'reader' is declared but never used
             /*
             cnn.Open();
             string result = "";

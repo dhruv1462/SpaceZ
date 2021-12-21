@@ -1,0 +1,5 @@
+C:\Intel Internship\Project\SpaceZ\SpaceZ\InformationService\bin\Debug\InformationService.dll
+C:\Intel Internship\Project\SpaceZ\SpaceZ\InformationService\bin\Debug\InformationService.pdb
+C:\Intel Internship\Project\SpaceZ\SpaceZ\InformationService\obj\Debug\InformationService.csproj.CoreCompileInputs.cache
+C:\Intel Internship\Project\SpaceZ\SpaceZ\InformationService\obj\Debug\InformationService.dll
+C:\Intel Internship\Project\SpaceZ\SpaceZ\InformationService\obj\Debug\InformationService.pdb

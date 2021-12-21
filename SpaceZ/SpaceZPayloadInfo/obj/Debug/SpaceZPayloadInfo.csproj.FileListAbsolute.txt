@@ -13,4 +13,3 @@ C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayl
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.CoreCompileInputs.cache
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.exe
 C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.pdb
-C:\Intel Internship\Project\SpaceZ\SpaceZ\SpaceZPayloadInfo\obj\Debug\SpaceZPayloadInfo.csproj.AssemblyReference.cache
