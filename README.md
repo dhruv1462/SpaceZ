@@ -28,10 +28,12 @@ Technology Stack
 This project was created with the C sharp for backend and XAML for the frontend and SQL Server was used for the database.
 
 Installation Guide
-Clone this project into a directory on your system using any of the 2 options provided below:
-via SSH: > git clone git@github.com:dhruv1462/SpaceZ.git
-via HTTPS: > git clone https://github.com/dhruv1462/SpaceZ.git
-Open the solution file in the Visual studio. 
-This will load all your files in project.
-Change the connection string for SQL server and SQL database.
-Now clean the project and build it.
+
+1. Clone this project into a directory on your system using any of the 2 options provided below:
+2. via SSH: > git clone git@github.com:dhruv1462/SpaceZ.git
+3. via HTTPS: > git clone https://github.com/dhruv1462/SpaceZ.git
+4. Open the solution file in the Visual studio. 
+5. This will load all your files in project.
+6. Change the connection string for SQL server and SQL database and also change the path of the process in the CommunicationSystem.cs 
+7. Now clean the project and build it.
+8. Run the Project
