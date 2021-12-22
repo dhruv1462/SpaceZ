@@ -24,6 +24,7 @@ namespace DSN
     /// </summary>
     /// [DataContract]
     
+    // Interface defined for telemetry service inter process communication using wcf architecture
     [ServiceContract]
     public interface ITelemetryService
     {
@@ -31,19 +32,22 @@ namespace DSN
         string getTelemetry(string spacecraftName);
     }
 
-   [ServiceContract]
+    // Interface defined for payloadData service inter process communication using wcf architecture
+
+    [ServiceContract]
     public interface IPayloadDataService
     {
         [OperationContract]
         string getPayLoadInfo(string payloadName);
     }
 
+    // All the values and componenets are Initialized
     public partial class CommunicationSystem : Window
     {
         private DispatcherTimer timerTelemetry = new DispatcherTimer();
         private DispatcherTimer timerPayload = new DispatcherTimer();
         SqlConnection cnn;
-        string connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;;Integrated Security = True";
+        string connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;;Integrated Security = True";
         SqlCommand cmd;
         SqlDataReader reader;
         public CommunicationSystem()
@@ -85,69 +89,126 @@ namespace DSN
         }
 
 
+        // Get the data from payload process
         private void startDataButton_Click(object sender, RoutedEventArgs e)
         {
-           Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
-            p.Start();
-            cnn = new SqlConnection(connetionString);
-            cnn.Open();
-            string payloadType = "";
-            string selectQuery = "Select payloadType from spacecraftinfo Where payloadName = '" + comboBoxPayload.SelectedItem.ToString() + "'";
-            cmd = new SqlCommand(selectQuery, cnn);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            if (comboBoxPayload.SelectedItem != null)
             {
-                payloadType = reader.GetString(0);
+                Process p = new Process();
+                // Change the path of ur file accordingly
+                p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
+                p.Start();
+                cnn = new SqlConnection(connetionString);
+                cnn.Open();
+                string payloadType = "";
+                string selectQuery = "Select payloadType from spacecraftinfo Where payloadName = '" + comboBoxPayload.SelectedItem.ToString() + "'";
+                cmd = new SqlCommand(selectQuery, cnn);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    payloadType = reader.GetString(0);
 
+                }
+                if (payloadType == "Scientific")
+                {
+                    timerPayload.Tick += new EventHandler(payloadData);
+                    timerPayload.Interval = new TimeSpan(0, 0, 5);
+                    timerPayload.Start();
+                }
+                else if (payloadType == "Communication")
+                {
+                    timerPayload.Tick += new EventHandler(payloadData);
+                    timerPayload.Interval = new TimeSpan(0, 0, 10);
+                    timerPayload.Start();
+                }
+                else if (payloadType == "Spy")
+                {
+                    timerPayload.Tick += new EventHandler(payloadData);
+                    timerPayload.Interval = new TimeSpan(0, 0, 30);
+                    timerPayload.Start();
+                }
+                
             }
-            timerPayload.Tick += new EventHandler(payloadData);
-            timerPayload.Interval = new TimeSpan(0, 0, 1);
-            timerPayload.Start();
+            else
+            {
+                MessageBox.Show("Select the payload for you want the data");
+            }
         }
 
+        // tcp connection established to get data for payload
         private void payloadData(object sender, EventArgs e)
         {
-            string uri = "net.tcp://localhost:6565/MainWindow";
-            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
-            var channel = new ChannelFactory<IPayloadDataService>(binding);
-            var endpoint = new EndpointAddress(uri);
-            var proxy = channel.CreateChannel(endpoint);
-            var result = proxy?.getPayLoadInfo(comboBoxPayload.SelectedItem.ToString());
-            if (result != null)
+            try
             {
-                Console.WriteLine(result);
-                payloadDataText.Text = result;
+                string uri = "net.tcp://localhost:8080/MainWindow";
+                NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
+                var channel = new ChannelFactory<IPayloadDataService>(binding);
+                var endpoint = new EndpointAddress(uri);
+                var proxy = channel.CreateChannel(endpoint);
+                var result = proxy?.getPayLoadInfo(comboBoxPayload.SelectedItem.ToString());
+                if (result != null)
+                {
+                    Console.WriteLine(result);
+                    payloadDataText.Text = result;
 
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Payload Information Process Was Closed ");
+                timerPayload.Stop();
+                payloadDataText.Clear();
             }
         }
-       
+
+        // Get telemetry data
         private void startTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
+           
+            if (comboBoxSpaceCraft.SelectedItem != null)
+            { 
             Process p = new Process();
             p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
             p.Start();
+           
             timerTelemetry.Tick += new EventHandler(telemeteryInfo);
             timerTelemetry.Interval = new TimeSpan(0, 0, 1);
             timerTelemetry.Start();
-        }
-
-        private void telemeteryInfo(object sender, EventArgs e)
-        {
-            string uri = "net.tcp://localhost:6565/MainWindow";
-            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
-            var channel = new ChannelFactory<ITelemetryService>(binding);
-            var endpoint = new EndpointAddress(uri);
-            var proxy = channel.CreateChannel(endpoint);
-            var result = proxy?.getTelemetry(comboBoxSpaceCraft.SelectedItem.ToString());
-            if (result != null)
+                
+            }
+            else
             {
-                Console.WriteLine(result);
-                textTelemetry.Text = result;
-
+                MessageBox.Show("Select the spacecraft you want to get telemetry data");
             }
         }
 
+        // tcp connection established to get telemetry data
+        private void telemeteryInfo(object sender, EventArgs e)
+        {
+            try
+            {
+                string uri = "net.tcp://localhost:6565/MainWindow";
+                NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
+                var channel = new ChannelFactory<ITelemetryService>(binding);
+                var endpoint = new EndpointAddress(uri);
+                var proxy = channel.CreateChannel(endpoint);
+                var result = proxy?.getTelemetry(comboBoxSpaceCraft.SelectedItem.ToString());
+                if (result != null)
+                {
+                    Console.WriteLine(result);
+                    textTelemetry.Text = result;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Telemetry Information Was Closed");
+                timerTelemetry.Stop();
+                textTelemetry.Clear();
+            }
+        }
+
+        // stop telemetry data
         private void stopTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
             timerTelemetry.Stop();
@@ -159,6 +220,7 @@ namespace DSN
 
         }
 
+        
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = new MainWindow();
@@ -166,6 +228,7 @@ namespace DSN
             this.Close();
         }
 
+        // stop payload data
         private void stopDataButton_Click(object sender, RoutedEventArgs e)
         {
             timerPayload.Stop();
@@ -176,11 +239,12 @@ namespace DSN
             }
         }
 
+        // Launch Payload when spacecraft is in orbit
         private void launchPayloadbtn_Click(object sender, RoutedEventArgs e)
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             SqlCommand cmd;
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -196,11 +260,12 @@ namespace DSN
             launchPayloadbtn.IsEnabled = false;
         }
 
+       // enabling the launch button if payload not yet launched
         private void comboBoxSpaceCraft_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             SqlCommand cmd;
             string spacecraftName = comboBoxSpaceCraft.SelectedItem.ToString();
@@ -229,11 +294,12 @@ namespace DSN
             this.Close();
         }
 
+        // get details of payload and payload type
         private void listOfPayLoad_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             SqlCommand cmd;
             string payloadName = listOfPayLoad.SelectedItem.ToString();

@@ -13,7 +13,7 @@ namespace SpaceZ
     /// Interaction logic for MainWindow.xaml
     /// </summary>
    
-    
+   // Interface defined with the method so that we can receive the data at the other end (Client side).
     [ServiceContract]
     public interface ITelemetryService
     {
@@ -22,16 +22,18 @@ namespace SpaceZ
         string getTelemetry(string spacecraftName);
     }
 
+    // Service class defined to gather the data and send to the client
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class TelemetryService : ITelemetryService
     {
+        //  gets the telemetry data
         public string getTelemetry(string spacecraftName)
         {
             string data;
             double orbitRadius = 0;
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -103,6 +105,7 @@ namespace SpaceZ
         }
     }
 
+    // All the componenets are disabled
     public partial class MainWindow : Window
     {
         private double counter = 0;
@@ -116,7 +119,7 @@ namespace SpaceZ
             InitializeComponent();
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -142,8 +145,15 @@ namespace SpaceZ
             var binding = new NetTcpBinding(SecurityMode.None);
             host.AddServiceEndpoint(typeof(ITelemetryService), binding, "");
             host.Opened += Host_Opened;
-            host.Open(); 
+            host.Open();
 
+            //Remove the below code to see UI on this application
+            payloadLaunchBtn.Visibility = Visibility.Collapsed; 
+            selectSpacecraftlable.Visibility = Visibility.Collapsed;
+            textTelemetry.Visibility = Visibility.Collapsed;
+            ButtonTelemetry.Visibility = Visibility.Collapsed;  
+            comboBoxSpacecrafts.Visibility = Visibility.Collapsed;
+            telemetrylable.Visibility = Visibility.Collapsed;
         }
 
         private void Host_Opened(object sender, EventArgs e)
@@ -166,7 +176,7 @@ namespace SpaceZ
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -210,7 +220,7 @@ namespace SpaceZ
             {
                 SqlConnection cnn;
                 string connetionString;
-                connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+                connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
                 cnn = new SqlConnection(connetionString);
                 SqlCommand cmd;
                 SqlDataReader reader;
@@ -267,7 +277,7 @@ namespace SpaceZ
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             SqlCommand cmd;
             SqlDataAdapter adapter = new SqlDataAdapter();

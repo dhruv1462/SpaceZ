@@ -25,22 +25,23 @@ namespace DSN
     {
 
         SqlConnection cnn;
+        // If you are running on ur system add ur connection string to server
         string connetionString = "Data Source=DESKTOP-IKE2NLC;Integrated Security = True";
         public MainWindow()
         {
             InitializeComponent();
-            bool check = CheckDatabaseExists("spaceg");
+            bool check = CheckDatabaseExists("spacez");
             Console.WriteLine(check);
             if (check == false)
             {
-                string createDatabase = "Create Database spaceg";
+                string createDatabase = "Create Database spacez";
                 cnn = new SqlConnection(connetionString);
                 SqlCommand myCommand = new SqlCommand(createDatabase, cnn);
                 cnn.Open();
                 myCommand.ExecuteNonQuery();
                
-
-                string connetionStringdatabase = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+                // Add your connection string with the name of database as spacez
+                string connetionStringdatabase = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
                 SqlConnection connetionConnection = new SqlConnection(connetionStringdatabase);
                 connetionConnection.Open();
                 string createQuery = "Create Table spacecraftinfo (spacecraftName varchar(255) PRIMARY KEY, orbitRadius float(50), payloadName varchar(255) UNIQUE, payloadType varchar(255), launchStatus varchar(255));" +
@@ -54,6 +55,7 @@ namespace DSN
             }
         }
 
+        // This button will redirect you to Communication System Window
         private void communicationSystemBtn_Click(object sender, RoutedEventArgs e)
         {
             var communicationSystem = new CommunicationSystem();
@@ -61,6 +63,7 @@ namespace DSN
             this.Close();
         }
 
+        // This button will redirect you to Mission Control Window
         private void missionControlSystemBtn_Click(object sender, RoutedEventArgs e)
         {
             var missionControlSystem = new MissionControlSystem(); 
@@ -68,6 +71,7 @@ namespace DSN
             this.Close();
         }
 
+        // Function to check if database exist or not
         private static bool CheckDatabaseExists( string databaseName)
         {
             SqlConnection tmpConn;

@@ -7,18 +7,27 @@
         mc:Ignorable="d"
         Title="AddSpacecraft" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.533,0.521">
-        
+
         <Button  FontWeight="Bold" x:Name="btnBack" Content="Back" HorizontalAlignment="Right" Margin="12,9,0,0" VerticalAlignment="Bottom" Width="75" Click="btnBack_Click"/>
-        <Label FontSize="16" FontWeight="Bold" Content="Provide Spacecraft information" HorizontalAlignment="Left" Margin="242,78,0,0" VerticalAlignment="Top" Width="300" />
-        <Label FontWeight="Bold" Content="Name" Margin="242,120,-18,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="spacecraftNameTxt" HorizontalAlignment="Left" Height="23" Margin="323,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontWeight="Bold"/>
-        <Label FontWeight="Bold" Content="Orbit Radius" HorizontalAlignment="Left" Margin="242,157,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="orbitRadiusTxt"  HorizontalAlignment="Left" Height="23" Margin="324,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontWeight="Bold" />
-        <Label FontSize="16" FontWeight="Bold" Content="Payload Information" HorizontalAlignment="Left" Margin="242,199,0,0" VerticalAlignment="Top" Width="231"/>
-        <Label FontWeight="Bold" Content="Name" HorizontalAlignment="Left" Margin="242,236,0,0" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="payloadNameTxt" HorizontalAlignment="Left" Height="23" Margin="326,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" FontWeight="Bold"/>
-        <Label FontWeight="Bold"  Content="Type" HorizontalAlignment="Left" Margin="242,274,0,0" VerticalAlignment="Top" Width="55"/>
-        <ComboBox x:Name="payloadCombo" HorizontalAlignment="Left" Margin="328,276,0,0" VerticalAlignment="Top" Width="141" Height="25" FontWeight="Bold"/>
-        <Button FontWeight="Bold" Content="Add New Spacecraft" HorizontalAlignment="Center" Margin="0,324,0,0" VerticalAlignment="Top" Width="140" Click="btnAddSpacecraft_Click" Height="32" />
+        <Label FontSize="16" FontWeight="Bold" Content="Provide Spacecraft information" HorizontalAlignment="Left" Margin="120,87,0,0" VerticalAlignment="Top" Width="300" RenderTransformOrigin="0.5,0.5" >
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.301"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label FontWeight="Bold" Content="Name" Margin="120,129,104,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="spacecraftNameTxt" HorizontalAlignment="Left" Height="23" Margin="201,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontWeight="Bold"/>
+        <Label FontWeight="Bold" Content="Orbit Radius" HorizontalAlignment="Left" Margin="120,166,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="orbitRadiusTxt"  HorizontalAlignment="Left" Height="23" Margin="202,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontWeight="Bold" />
+        <Label FontSize="16" FontWeight="Bold" Content="Payload Information" HorizontalAlignment="Left" Margin="454,88,0,0" VerticalAlignment="Top" Width="231"/>
+        <Label FontWeight="Bold" Content="Name" HorizontalAlignment="Left" Margin="454,125,0,0" VerticalAlignment="Top" Width="60"/>
+        <TextBox x:Name="payloadNameTxt" HorizontalAlignment="Left" Height="23" Margin="538,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" FontWeight="Bold"/>
+        <Label FontWeight="Bold"  Content="Type" HorizontalAlignment="Left" Margin="454,163,0,0" VerticalAlignment="Top" Width="55"/>
+        <ComboBox x:Name="payloadCombo" HorizontalAlignment="Left" Margin="540,165,0,0" VerticalAlignment="Top" Width="141" Height="25" FontWeight="Bold"/>
+        <Button FontWeight="Bold" Content="Add New Spacecraft" HorizontalAlignment="Center" Margin="0,281,0,0" VerticalAlignment="Top" Width="560" Click="btnAddSpacecraft_Click" Height="33" />
     </Grid>
 </Window>

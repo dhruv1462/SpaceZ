@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="SELECT PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="186" />
-        <Label Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
-        <Label Content="Telemetry" HorizontalAlignment="Left" Margin="436,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <Label x:Name ="selectPayloadLabel" Content="SELECT PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="186" />
+        <Label x:Name ="dataPayloadLabel" Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <Label x:Name ="telemetryLabel" Content="Telemetry" HorizontalAlignment="Left" Margin="436,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
 
         <ComboBox   x:Name = "comboBoxPayLoad" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold"/>
         <TextBox FontWeight="Bold" x:Name="textData" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>

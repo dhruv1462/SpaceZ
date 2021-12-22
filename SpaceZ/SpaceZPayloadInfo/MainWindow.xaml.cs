@@ -23,6 +23,7 @@ namespace SpaceZPayloadInfo
     /// Interaction logic for MainWindow.xaml
     /// </summary>
 
+    // Interface defined with the method so that we can receive the data at the other end (Client side).
     [ServiceContract]
     public interface IPayloadDataService
     {
@@ -30,17 +31,19 @@ namespace SpaceZPayloadInfo
         string getPayLoadInfo(string payloadName);
     }
 
+    // Service class defined to gather the data and send to the client
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class PayloadDataService : IPayloadDataService
     {
         string spaceCraftName;
         double orbitRadius;
+        // get the payload data
         public string getPayLoadInfo(string payloadName)
         {
             string data = "";
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -67,16 +70,14 @@ namespace SpaceZPayloadInfo
                 double downlink = rand.NextDouble();
                 double transponder = rand.NextDouble();
                 data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Communication\n Communication Data\n Uplink: " + uplink + " MBps\n Downlink: " + downlink + " MBps% ActiveTransponder: " + transponder + " inch";
-                int milliseconds = 10000;
-                Thread.Sleep(milliseconds);
+           
             }
             else if (payloadType.Equals("Spy"))
             {
                 Random rand = new Random();
                 double bytes = rand.NextDouble();
                 data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Spy\n Image Data\n Image: " + bytes + " bytes ";
-                int milliseconds = 30000;
-                Thread.Sleep(milliseconds);
+                
             }
             else if (payloadType.Equals("Scientific"))
             {
@@ -85,8 +86,7 @@ namespace SpaceZPayloadInfo
                 double humidity = rand.NextDouble();
                 double snow = rand.NextDouble();
                 data = " Launch Vehicle Config\n Name: " + spaceCraftName + "\n Orbit: " + orbitRadius + "\n Payload Config\n Name: " + payloadName + "\n Type: Scientific\n Weather Data\n Rainfall: " + rainfall + " mm\n Humidity: " + humidity + " % snow: " + snow + " inch";
-                int milliseconds = 5000;
-                Thread.Sleep(milliseconds);
+                
 
             }
            return data;
@@ -105,7 +105,7 @@ namespace SpaceZPayloadInfo
          
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -121,7 +121,7 @@ namespace SpaceZPayloadInfo
             cnn.Close();
 
             var uris = new Uri[1];
-            string address = "net.tcp://localhost:6565/MainWindow";
+            string address = "net.tcp://localhost:8080/MainWindow";
             uris[0] = new Uri(address);
             IPayloadDataService payloadData = new PayloadDataService();
             ServiceHost host = new ServiceHost(payloadData, uris);
@@ -130,6 +130,17 @@ namespace SpaceZPayloadInfo
             host.Opened += Host_Opened;
             host.Open();
             
+            // Remove the below code to see the UI components in application
+            dataPayloadLabel.Visibility = Visibility.Collapsed;
+            selectPayloadLabel.Visibility= Visibility.Collapsed;
+            telemetryLabel.Visibility = Visibility.Collapsed;
+            comboBoxPayLoad.Visibility = Visibility.Collapsed;
+            textTelemetry.Visibility = Visibility.Collapsed;
+            textData.Visibility = Visibility.Collapsed;
+            startDataButton.Visibility = Visibility.Collapsed;
+            stopDataButton.Visibility = Visibility.Collapsed;
+            startTelemetryButton.Visibility = Visibility.Collapsed;
+            stopTelemetryButton.Visibility = Visibility.Collapsed;
 
         }
 
@@ -142,7 +153,7 @@ namespace SpaceZPayloadInfo
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -212,7 +223,7 @@ namespace SpaceZPayloadInfo
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;

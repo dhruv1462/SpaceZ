@@ -16,7 +16,8 @@ namespace DSN
             InitializeComponent();
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            // Change the connection string of database
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -41,7 +42,7 @@ namespace DSN
             cnn.Close();
         }
 
-
+        // This button will redirect you too Add Spacecraft window to add new spacecraft
         private void addSpaceCraftBtn_Click(object sender, RoutedEventArgs e)
         {
             var addSpacecraft = new AddSpacecraft();
@@ -49,47 +50,51 @@ namespace DSN
             this.Close();
         }
 
+        // This button will launch the spacecraft
         private void btnLaunchSpacecraft_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection cnn;
-            string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
-            cnn = new SqlConnection(connetionString);
-            cnn.Open();
-            SqlCommand cmd;
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            string updateQuery = "Update spacecraftinfo set launchStatus = 'active' where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
-            cmd = new SqlCommand(updateQuery, cnn);
-            adapter.UpdateCommand = cmd;
-            adapter.UpdateCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            adapter.Dispose();
-            var missionControlSystem = new MissionControlSystem();
-            missionControlSystem.Show();
-            this.Close();
-            Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
-            p.Start();
-            SqlDataReader reader;
-            double orbitRadius = 0;
-            string selectQuery = "select orbitRadius from spacecraftinfo where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
-            cmd = new SqlCommand(selectQuery, cnn);
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                orbitRadius = reader.GetDouble(0);
+            if (launchSpacecraftCombo.SelectedItem != null) {
+                SqlConnection cnn;
+                string connetionString;
+                connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
+                cnn = new SqlConnection(connetionString);
+                cnn.Open();
+                SqlCommand cmd;
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                string updateQuery = "Update spacecraftinfo set launchStatus = 'active' where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
+                cmd = new SqlCommand(updateQuery, cnn);
+                adapter.UpdateCommand = cmd;
+                adapter.UpdateCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                adapter.Dispose();
+                var missionControlSystem = new MissionControlSystem();
+                missionControlSystem.Show();
+                this.Close();
+                SqlDataReader reader;
+                double orbitRadius = 0;
+                string selectQuery = "select orbitRadius from spacecraftinfo where spacecraftName = '" + launchSpacecraftCombo.SelectedItem.ToString() + "'";
+                cmd = new SqlCommand(selectQuery, cnn);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    orbitRadius = reader.GetDouble(0);
+                }
+                double timeToOrbit = (double)orbitRadius / 3600 + 10;
+                reader.Close();
+                cmd.Dispose();
+                double timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                timestamp = timestamp + timeToOrbit;
+                string insertQuery = "Insert Into timeToOrbit (spacecraftName, timespan) values('" + launchSpacecraftCombo.SelectedItem.ToString() + "','" + timestamp + "')";
+                cmd = new SqlCommand(insertQuery, cnn);
+                adapter = new SqlDataAdapter();
+                adapter.InsertCommand = cmd;
+                adapter.InsertCommand.ExecuteNonQuery();
+                cnn.Close();
             }
-            double timeToOrbit = (double)orbitRadius / 3600 + 10;
-            reader.Close();
-            cmd.Dispose();
-            double timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            timestamp = timestamp + timeToOrbit;
-            string insertQuery = "Insert Into timeToOrbit (spacecraftName, timespan) values('" + launchSpacecraftCombo.SelectedItem.ToString() + "','" + timestamp + "')";
-            cmd = new SqlCommand(insertQuery, cnn);
-            adapter = new SqlDataAdapter();
-            adapter.InsertCommand = cmd;
-            adapter.InsertCommand.ExecuteNonQuery();
-            cnn.Close();
+            else
+            {
+                MessageBox.Show("Select Spacecraft to launch.");
+            }
         }
 
         private void comboNewSpacecrafts_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -97,13 +102,13 @@ namespace DSN
 
         }
 
-
+        // Get information of spacecraft on clicking on the list 
         private void listOfSpacecrafts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string spacecraftName = listOfSpacecrafts.SelectedItem.ToString();
             SqlConnection cnn;
             string connetionString;
-            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;

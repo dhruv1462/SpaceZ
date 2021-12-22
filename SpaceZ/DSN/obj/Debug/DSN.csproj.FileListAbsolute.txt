@@ -23,7 +23,6 @@ C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.AssemblyRefer
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.exe.config
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.exe
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.pdb
-C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.AssemblyReference.cache
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.SuggestedBindingRedirects.cache
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\AddSpacecraft.g.cs
 C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\CommunicationSystem.g.cs

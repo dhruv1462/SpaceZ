@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="SELECT SPACECRAFT" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="186" />
-        <Label Content="TELEMETRY" HorizontalAlignment="Left" Margin="59,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
+        <Label x:Name ="selectSpacecraftlable" Content="SELECT SPACECRAFT" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="186" />
+        <Label x:Name ="telemetrylable" Content="TELEMETRY" HorizontalAlignment="Left" Margin="59,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
         <ComboBox   x:Name = "comboBoxSpacecrafts" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "184" Height="27"  FontSize="16" SelectionChanged="comboBoxSpacecrafts_SelectionChanged_1" FontWeight="Bold"/>
         <Button Content="Launch Payload" x:Name = "payloadLaunchBtn" HorizontalAlignment="Left" Margin="546,148,0,0" VerticalAlignment="Top" Width="114" Height="24" FontWeight="Bold" Click="payloadLaunchBtn_Click"/>
         <TextBox FontWeight="Bold" x:Name="textTelemetry" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="186"/>
