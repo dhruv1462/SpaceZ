@@ -24,7 +24,7 @@ SpaceZ wants you to design a software system to run their operations. This softw
 	3. Able to send its Data back to DSN.
 
 
-Technology Stack
+Technology 
 This project was created with the C sharp for backend and XAML for the frontend and SQL Server was used for the database.
 
 Installation Guide
