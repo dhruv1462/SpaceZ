@@ -42,42 +42,58 @@ namespace DSN
     {
         private DispatcherTimer timerTelemetry = new DispatcherTimer();
         private DispatcherTimer timerPayload = new DispatcherTimer();
+        SqlConnection cnn;
+        string connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;;Integrated Security = True";
+        SqlCommand cmd;
+        SqlDataReader reader;
         public CommunicationSystem()
         {
             
             InitializeComponent();
-            SqlConnection cnn;
-            string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
-            SqlCommand cmd;
-            SqlDataReader reader;
-            string selectQuery = "Select spacecraftName, payloadName  from spacecraftinfo";
+            string selectQuery = "Select spacecraftName from timeToOrbit";
             cmd = new SqlCommand(selectQuery, cnn);
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 comboBoxSpaceCraft.Items.Add(reader.GetValue(0));
-                comboBoxPayload.Items.Add(reader.GetValue(1));
+            }
+
+            reader.Close();
+
+            string updatePayloadStatus = "Select payloadName from vehicleInOrbit";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                listOfPayLoad.Items.Add(reader.GetValue(0));
             }
             reader.Close();
-            cnn.Close();
+
+            string selectPayloadName = "Select payloadName from vehicleInOrbit Where payLoadStatus = 'Deployed'";
+            cmd = new SqlCommand(selectPayloadName, cnn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                comboBoxPayload.Items.Add(reader.GetValue(0));
+            }
+            
+            reader.Close();
+            
+            launchPayloadbtn.IsEnabled = false;
         }
+
+
         private void startDataButton_Click(object sender, RoutedEventArgs e)
         {
            Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
+            p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZPayloadInfo\\bin\\Debug\\SpaceZPayloadInfo.exe");
             p.Start();
-            SqlConnection cnn;
-            string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
-            SqlCommand cmd;
-            SqlDataReader reader;
             string payloadType = "";
-            string selectQuery = "Select payloadType, spaceCraftName, orbitRadius from spacecraftinfo Where payloadName = '" + payloadName + "'";
+            string selectQuery = "Select payloadType from spacecraftinfo Where payloadName = '" + comboBoxPayload.SelectedItem.ToString() + "'";
             cmd = new SqlCommand(selectQuery, cnn);
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -109,7 +125,7 @@ namespace DSN
         private void startTelemetryButton_Click(object sender, RoutedEventArgs e)
         {
             Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
+            p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
             p.Start();
             timerTelemetry.Tick += new EventHandler(telemeteryInfo);
             timerTelemetry.Interval = new TimeSpan(0, 0, 1);
@@ -157,6 +173,78 @@ namespace DSN
             foreach (var process in Process.GetProcessesByName("SpaceZPayloadInfo"))
             {
                 process.Kill();
+            }
+        }
+
+        private void launchPayloadbtn_Click(object sender, RoutedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            cnn = new SqlConnection(connetionString);
+            SqlCommand cmd;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            string spacecraftName = comboBoxSpaceCraft.SelectedItem.ToString();
+            string payloadStatus = "Deployed";
+            cnn.Open();
+            string updatePayloadStatus = "Update vehicleInOrbit Set payLoadStatus ='" + payloadStatus + "' where spacecraftName = '" + spacecraftName + "'";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand.ExecuteNonQuery();
+            cmd.Dispose();
+            cnn.Close();
+            launchPayloadbtn.IsEnabled = false;
+        }
+
+        private void comboBoxSpaceCraft_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            cnn = new SqlConnection(connetionString);
+            SqlCommand cmd;
+            string spacecraftName = comboBoxSpaceCraft.SelectedItem.ToString();
+            string payloadStatus = "Deployed";
+            cnn.Open();
+            string updatePayloadStatus = "Select payloadName from vehicleInOrbit where payLoadStatus ='"+payloadStatus+"' and spacecraftName = '"+spacecraftName+"'";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            
+            if(reader.Read() == false)
+            {
+                launchPayloadbtn.IsEnabled= true;
+            }
+            else
+            {
+                launchPayloadbtn.IsEnabled = false;
+            }
+            cnn.Close();
+
+        }
+
+        private void refreshbtn_Click(object sender, RoutedEventArgs e)
+        {
+            var communicationSystem = new CommunicationSystem();
+            communicationSystem.Show();
+            this.Close();
+        }
+
+        private void listOfPayLoad_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+            cnn = new SqlConnection(connetionString);
+            SqlCommand cmd;
+            string payloadName = listOfPayLoad.SelectedItem.ToString();
+            cnn.Open();
+            string updatePayloadStatus = "Select * from spacecraftinfo where payloadName ='" + payloadName + "'";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string information = "\nSpacecraft Name: " + reader.GetString(0) + "\nPayload Name: " + reader.GetString(2) + "\nPayload Type: " + reader.GetString(3);
+                MessageBox.Show(information,reader.GetString(2));
             }
         }
     }

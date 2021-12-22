@@ -5,21 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DSN"
         mc:Ignorable="d"
-        Title="CommunicationSystem" Height="450" Width="800">
-    <Grid>
+        Title="CommunicationSystem" Height="503" Width="1269">
+    <Grid Margin="0,0,0,0">
         <Label Content="SELECT PAYLOAD" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
         <Label Content="DATA FROM PAYLOAD" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
         <Label Content="SELECT SPACECRAFT" HorizontalAlignment="Left" Margin="400,32,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
         <Label Content="TELEMETRY OF SPACECRAFT " HorizontalAlignment="Left" Margin="391,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" />
         <ComboBox   x:Name = "comboBoxPayload" HorizontalAlignment = "Left" Margin = "23,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold" />
-        <ComboBox   x:Name = "comboBoxSpaceCraft" HorizontalAlignment = "Left" Margin = "400,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold"/>
+        <ComboBox   x:Name = "comboBoxSpaceCraft" HorizontalAlignment = "Left" Margin = "400,71,0,0" VerticalAlignment = "Top" Width = "229" Height="27"  FontSize="16" FontWeight="Bold" SelectionChanged="comboBoxSpaceCraft_SelectionChanged"/>
         <TextBox FontWeight="Bold" x:Name="payloadDataText" HorizontalAlignment="Left" Height="229" Margin="21,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
-        <TextBox FontWeight="Bold" x:Name="textTelemetry" HorizontalAlignment="Left" Height="229" Margin="396,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="231"/>
+        <TextBox FontWeight="Bold" x:Name="textTelemetry" HorizontalAlignment="Left" Height="229" Margin="396,177,0,0" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Top" Width="371"/>
         <Button  FontWeight="Bold" x:Name="startDataButton"  Content="Start Data" HorizontalAlignment="Left" Margin="23,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startDataButton_Click" />
         <Button  FontWeight="Bold" x:Name="stopDataButton"  Content="Stop Data" HorizontalAlignment="Left" Margin="140,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="stopDataButton_Click" />
         <Button  FontWeight="Bold" x:Name="startTelemetryButton"  Content="Start Telemetry" HorizontalAlignment="Left" Margin="396,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="startTelemetryButton_Click"/>
-        <Button  FontWeight="Bold" x:Name="stopTelemetryButton"  Content="Stop Telemetry" HorizontalAlignment="Left" Margin="515,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="stopTelemetryButton_Click"/>
-        <Button  FontWeight="Bold" x:Name="backButton"  Content="Back" HorizontalAlignment="Left" Margin="678,399,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="backButton_Click" />
-
+        <Button  FontWeight="Bold" x:Name="stopTelemetryButton"  Content="Stop Telemetry" HorizontalAlignment="Left" Margin="528,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="stopTelemetryButton_Click"/>
+        <Button  FontWeight="Bold" x:Name="backButton"  Content="Back" HorizontalAlignment="Left" Margin="678,426,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="backButton_Click" RenderTransformOrigin="0.5,2.631" />
+        <Button  FontWeight="Bold" x:Name="launchPayloadbtn"  Content="Launch Payload" HorizontalAlignment="Left" Margin="655,147,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="launchPayloadbtn_Click"/>
+        <Button  FontWeight="Bold" x:Name="refreshbtn"  Content="Refresh" HorizontalAlignment="Left" Margin="1113,10,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="refreshbtn_Click"/>
+        <ListBox  FontWeight="Bold" x:Name="listOfPayLoad"  Height="264" Margin="870,142,194,0" VerticalAlignment="Top" Width="205" BorderThickness = "10" SelectionChanged="listOfPayLoad_SelectionChanged"/>
+        <Label Content="Payload Status" HorizontalAlignment="Left" Margin="892,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
     </Grid>
 </Window>

@@ -16,11 +16,13 @@ using System.Windows.Shapes;
 
 namespace DSN
 {
-    /// <summary>
-    /// Interaction logic for AddSpacecraft.xaml
-    /// </summary>
     public partial class AddSpacecraft : Window
     {
+        SqlConnection cnn;
+        string connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+        SqlCommand cmd;
+        SqlDataReader reader;
+        SqlDataAdapter adapter = new SqlDataAdapter();
         public AddSpacecraft()
         {
             InitializeComponent();
@@ -31,14 +33,8 @@ namespace DSN
 
         private void btnAddSpacecraft_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection cnn;
-            string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             cnn = new SqlConnection(connetionString);
-            SqlCommand cmd;
-#pragma warning disable CS0168 // The variable 'reader' is declared but never used
-            SqlDataReader reader;
-#pragma warning restore CS0168 // The variable 'reader' is declared but never used
+            
             /*
             cnn.Open();
             string result = "";
@@ -70,7 +66,6 @@ namespace DSN
                 cnn.Open();
                 string insertQuery = "Insert Into spacecraftinfo (spacecraftName, orbitRadius, payloadName, payloadType, launchStatus) values('" + spacecraftName+"','"+orbitRadius + "','" +payloadName + "','" +payloadType+"', '"+ launchStatus +"')";
                 cmd = new SqlCommand(insertQuery, cnn);
-                SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.InsertCommand = cmd;
                 adapter.InsertCommand.ExecuteNonQuery();
                 cnn.Close();

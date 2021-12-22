@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace DSN
 {
@@ -27,7 +16,7 @@ namespace DSN
             InitializeComponent();
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -64,7 +53,7 @@ namespace DSN
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -79,7 +68,7 @@ namespace DSN
             missionControlSystem.Show();
             this.Close();
             Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("C:\\Intel Internship\\Project\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
+            p.StartInfo = new ProcessStartInfo("C:\\Users\\dpatel81\\Desktop\\Intel\\SpaceZ\\SpaceZ\\SpaceZ\\bin\\Debug\\SpaceZ.exe");
             p.Start();
             SqlDataReader reader;
             double orbitRadius = 0;
@@ -114,7 +103,7 @@ namespace DSN
             string spacecraftName = listOfSpacecrafts.SelectedItem.ToString();
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;

@@ -40,7 +40,7 @@ namespace SpaceZPayloadInfo
             string data = "";
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -105,7 +105,7 @@ namespace SpaceZPayloadInfo
          
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -142,7 +142,7 @@ namespace SpaceZPayloadInfo
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;
@@ -212,7 +212,7 @@ namespace SpaceZPayloadInfo
         {
             SqlConnection cnn;
             string connetionString;
-            connetionString = @"Server=tcp:spacez.database.windows.net,1433;Initial Catalog=SpaceZ;Persist Security Info=False;User ID=dpatel81;Password=Dilip_1462!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
             cnn = new SqlConnection(connetionString);
             cnn.Open();
             SqlCommand cmd;

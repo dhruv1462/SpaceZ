@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,39 @@ namespace DSN
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
+
     public partial class MainWindow : Window
     {
+
+        SqlConnection cnn;
+        string connetionString = "Data Source=DESKTOP-IKE2NLC;Integrated Security = True";
         public MainWindow()
         {
             InitializeComponent();
+            bool check = CheckDatabaseExists("spaceg");
+            Console.WriteLine(check);
+            if (check == false)
+            {
+                string createDatabase = "Create Database spaceg";
+                cnn = new SqlConnection(connetionString);
+                SqlCommand myCommand = new SqlCommand(createDatabase, cnn);
+                cnn.Open();
+                myCommand.ExecuteNonQuery();
+               
+
+                string connetionStringdatabase = "Data Source=DESKTOP-IKE2NLC;Database=spaceg;Integrated Security = True";
+                SqlConnection connetionConnection = new SqlConnection(connetionStringdatabase);
+                connetionConnection.Open();
+                string createQuery = "Create Table spacecraftinfo (spacecraftName varchar(255) PRIMARY KEY, orbitRadius float(50), payloadName varchar(255) UNIQUE, payloadType varchar(255), launchStatus varchar(255));" +
+                                     "Create Table timeToOrbit (spacecraftName varchar(255) PRIMARY KEY, timespan float(50),  FOREIGN KEY (spacecraftName) REFERENCES spacecraftinfo(spacecraftName));" +
+                                     "Create Table vehicleInOrbit (spacecraftName varchar(255) PRIMARY KEY, payloadName varchar(255) UNIQUE, payLoadStatus varchar(255));";
+
+                SqlCommand connetionCommand = new SqlCommand(createQuery, connetionConnection);
+                connetionCommand.ExecuteNonQuery();
+                connetionConnection.Close();
+
+            }
         }
 
         private void communicationSystemBtn_Click(object sender, RoutedEventArgs e)
@@ -37,6 +66,47 @@ namespace DSN
             var missionControlSystem = new MissionControlSystem(); 
             missionControlSystem.Show(); 
             this.Close();
+        }
+
+        private static bool CheckDatabaseExists( string databaseName)
+        {
+            SqlConnection tmpConn;
+            string sqlCreateDBQuery;
+            bool result = false;
+
+            try
+            {
+                tmpConn = new SqlConnection("Data Source=DESKTOP-IKE2NLC;Integrated Security = True");
+
+                sqlCreateDBQuery = string.Format("SELECT database_id FROM sys.databases WHERE Name = '{0}'", databaseName);
+        
+        using (tmpConn)
+                {
+                    using (SqlCommand sqlCmd = new SqlCommand(sqlCreateDBQuery, tmpConn))
+                    {
+                        tmpConn.Open();
+
+                        object resultObj = sqlCmd.ExecuteScalar();
+
+                        int databaseID = 0;
+
+                        if (resultObj != null)
+                        {
+                            int.TryParse(resultObj.ToString(), out databaseID);
+                        }
+
+                        tmpConn.Close();
+
+                        result = (databaseID > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

@@ -20,3 +20,25 @@ C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.CoreCompileIn
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.exe
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.pdb
 C:\Intel Internship\Project\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.AssemblyReference.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.exe.config
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.exe
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\bin\Debug\DSN.pdb
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.AssemblyReference.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.SuggestedBindingRedirects.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\AddSpacecraft.g.cs
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\CommunicationSystem.g.cs
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\MainWindow.g.cs
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\MissionControlSystem.g.cs
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\App.g.cs
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN_MarkupCompile.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN_MarkupCompile.lref
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\AddSpacecraft.baml
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\CommunicationSystem.baml
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\MainWindow.baml
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\MissionControlSystem.baml
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.g.resources
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.Properties.Resources.resources
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.GenerateResource.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.csproj.CoreCompileInputs.cache
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.exe
+C:\Users\dpatel81\Desktop\Intel\SpaceZ\SpaceZ\DSN\obj\Debug\DSN.pdb
