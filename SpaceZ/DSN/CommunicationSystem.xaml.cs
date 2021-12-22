@@ -56,7 +56,7 @@ namespace DSN
             InitializeComponent();
             cnn = new SqlConnection(connetionString);
             cnn.Open();
-            string selectQuery = "Select spacecraftName from timeToOrbit";
+            string selectQuery = "Select spacecraftName from spacecraftinfo where launchStatus = 'active'";
             cmd = new SqlCommand(selectQuery, cnn);
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -312,6 +312,27 @@ namespace DSN
                 string information = "\nSpacecraft Name: " + reader.GetString(0) + "\nPayload Name: " + reader.GetString(2) + "\nPayload Type: " + reader.GetString(3);
                 MessageBox.Show(information,reader.GetString(2));
             }
+        }
+
+        // de-orbit spacecraft
+        private void deOrbitButton_Click(object sender, RoutedEventArgs e)
+        {
+            SqlConnection cnn;
+            string connetionString;
+            connetionString = "Data Source=DESKTOP-IKE2NLC;Database=spacez;Integrated Security = True";
+            cnn = new SqlConnection(connetionString);
+            SqlCommand cmd;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            string spacecraftName = comboBoxSpaceCraft.SelectedItem.ToString();
+            string launchStatus = "DeOrbit";
+            cnn.Open();
+            string updatePayloadStatus = "Update spacecraftInfo Set launchStatus ='" + launchStatus + "' where spacecraftName = '" + spacecraftName + "'";
+            cmd = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand = new SqlCommand(updatePayloadStatus, cnn);
+            adapter.UpdateCommand.ExecuteNonQuery();
+            cmd.Dispose();
+            cnn.Close();
+            launchPayloadbtn.IsEnabled = false;
         }
     }
 }

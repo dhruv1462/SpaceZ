@@ -24,5 +24,6 @@
         <Button  FontWeight="Bold" x:Name="refreshbtn"  Content="Refresh" HorizontalAlignment="Left" Margin="1113,10,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="refreshbtn_Click"/>
         <ListBox  FontWeight="Bold" x:Name="listOfPayLoad"  Height="264" Margin="870,142,194,0" VerticalAlignment="Top" Width="205" BorderThickness = "10" SelectionChanged="listOfPayLoad_SelectionChanged"/>
         <Label Content="Payload Status" HorizontalAlignment="Left" Margin="892,103,0,0" VerticalAlignment="Top"  FontWeight="Bold" FontSize="18" Width="367" />
+        <Button  FontWeight="Bold" x:Name="deOrbitButton"  Content="De-Orbit" HorizontalAlignment="Left" Margin="655,74,0,0" VerticalAlignment="Top" Width="112" Height="25" Click="deOrbitButton_Click"/>
     </Grid>
 </Window>
